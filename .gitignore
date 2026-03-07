@@ -1,0 +1,66 @@
+# Unity generated folders
+
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+.vs/
+
+
+# Addressables
+ServerData/
+
+# Unity Cloud
+.cloud/
+
+# Android
+.gradle/
+ExportedObj/
+*.apk
+*.aab
+*.unitypackage
+
+# Visual Studio / Rider / VSCode
+
+.vscode/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS generated files
+
+.DS_Store
+Thumbs.db
+desktop.ini
+local.properties
+
+# Crash reports
+
+sysinfo.txt
+
+# JetBrains Rider
+
+.idea/
+*.DotSettings.user
+
+# Unity meta backup
+
+*.bak
+*.backup
+*.orig
