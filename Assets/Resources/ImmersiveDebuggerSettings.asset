@@ -21,12 +21,15 @@ MonoBehaviour:
     DebugTypes:
     - Meta.XR.MultiplayerBlocks.Shared.CustomMatchmaking
     - Meta.XR.MultiplayerBlocks.Shared.FriendsMatchmaking
+  - AssemblyName: Assembly-CSharp
+    DebugTypes:
+    - HandTranlation
   immersiveDebuggerEnabled: 1
-  immersiveDebuggerDisplayAtStartup: 1
+  immersiveDebuggerDisplayAtStartup: 0
   enableOnlyInDebugBuild: 0
-  showInspectors: 0
-  showConsole: 0
-  followOverride: 1
+  showInspectors: 1
+  showConsole: 1
+  followOverride: 0
   rotateOverride: 0
   showInfoLog: 0
   showWarningLog: 1
@@ -36,8 +39,8 @@ MonoBehaviour:
   panelDistance: 1
   createEventSystem: 1
   automaticLayerCullingUpdate: 1
-  panelLayer: 20
-  meshRendererLayer: 21
+  panelLayer: 6
+  meshRendererLayer: 7
   overlayDepth: 10
   useOverlay: 1
   inspectedDataEnabled: 010101
@@ -51,4 +54,4 @@ MonoBehaviour:
   clickButton: 8193
   toggleFollowTranslationButton: 0
   toggleFollowRotationButton: 0
-  immersiveDebuggerToggleDisplayButton: 2
+  immersiveDebuggerToggleDisplayButton: 16386
