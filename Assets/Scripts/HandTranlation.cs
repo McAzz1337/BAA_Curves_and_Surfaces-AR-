@@ -12,7 +12,7 @@ public class HandTranlation : MonoBehaviour
     public GameObject obj;
     [DebugMember]
 
-    public Hand hand;
+    public Hand leftHand;
     [DebugMember]
 
     public bool active = false;
@@ -54,82 +54,85 @@ public class HandTranlation : MonoBehaviour
     public Vector3 handOpenStartPosition;
     [DebugMember]
     public Vector3 objectStartPosition;
-
+    [DebugMember]
     private bool _wasPalmOpenLastFrame = false;
+    [DebugMember]
+    private bool _wasFacingCameraLastFrame = false;
 
+    void Update()
+    {
+        isPalmOpen = detectOpenPalm(leftHand);
+        if (isPalmOpen)
+        {
+            updateHand(leftHand);
+        }
+        _wasPalmOpenLastFrame = isPalmOpen;
+
+    }
+
+
+    void updateDelegate(Hand hand)
+    {
+        isPalmOpen = detectOpenPalm(leftHand);
+        if (isPalmOpen)
+        {
+            updateHand(leftHand);
+        }
+        _wasPalmOpenLastFrame = isPalmOpen;
+
+    }
 
     // Update is called once per frame
-    void Update()
+    void updateHand(Hand hand)
     {
         isHandConnected = hand.IsConnected;
 
-        thumbPinching = hand.GetFingerIsPinching(HandFinger.Thumb);
-        indexPinching = hand.GetFingerIsPinching(HandFinger.Index);
-        middlePinching = hand.GetFingerIsPinching(HandFinger.Middle);
-        ringPinching = hand.GetFingerIsPinching(HandFinger.Ring);
-        pinkyPinching = hand.GetFingerIsPinching(HandFinger.Pinky);
-
-        isPalmOpen = detectOpenPalm();
-
-        // Compute palm facing direction relative to the camera.
-        palmNormal = GetPalmNormal();
-        Vector3 cameraForward = cam.transform.forward;
-        palmDotToCamera = Vector3.Dot(palmNormal, -cameraForward);
+        palmNormal = GetPalmNormal(hand);
+        Vector3 toCamera = cam.transform.position - GetHandRootPosition(hand);
+        palmDotToCamera = Vector3.Dot(palmNormal, toCamera.normalized);
         isPalmFacingCamera = palmDotToCamera > 0.8f;
 
-        // These logs are only for verifying the state in the Unity console.
-        Debug.Log("Hand connected: " + isHandConnected);
-        Debug.Log("Palm open: " + isPalmOpen + " (facing camera: " + isPalmFacingCamera + ")");
-
-        if (isPalmOpen && isPalmFacingCamera)
+        if (isPalmFacingCamera)
         {
-            // When the palm opens, start tracking the initial positions.
-            if (!_wasPalmOpenLastFrame)
+            if (!_wasPalmOpenLastFrame || !_wasFacingCameraLastFrame)
             {
-                handOpenStartPosition = GetHandRootPosition();
+                handOpenStartPosition = GetHandRootPosition(hand);
                 objectStartPosition = obj.transform.position;
                 active = true;
             }
 
             if (active)
             {
-                Vector3 currentHandPosition = GetHandRootPosition();
+                Vector3 currentHandPosition = GetHandRootPosition(hand);
                 Vector3 handDelta = currentHandPosition - handOpenStartPosition;
                 obj.transform.position = objectStartPosition + handDelta;
             }
         }
         else
         {
-            // Stop translating when the palm closes or is turned away.
             active = false;
         }
 
-        _wasPalmOpenLastFrame = isPalmOpen;
+        _wasFacingCameraLastFrame = isPalmFacingCamera;
     }
 
-    private Vector3 GetHandRootPosition()
+    private Vector3 GetHandRootPosition(Hand hand)
     {
         if (hand.GetJointPose(HandJointId.HandWristRoot, out Pose pose))
         {
             return pose.position;
         }
 
-        // Fallback to the component transform if joint tracking is unavailable.
         return hand.transform.position;
     }
 
-    private Vector3 GetPalmNormal()
+    private Vector3 GetPalmNormal(Hand hand)
     {
-        // Use 3 key hand joints to define the palm plane: wrist root, index base, pinky base.
-        // The normal is the cross product between the vectors from wrist->index and wrist->pinky.
-        // This should point roughly out of the palm (or the back of the hand); we will use the dot
-        // product with the camera forward vector to determine which side is facing the viewer.
 
         if (!hand.GetJointPose(HandJointId.HandWristRoot, out Pose wristPose) ||
             !hand.GetJointPose(HandJointId.HandIndex1, out Pose indexPose) ||
             !hand.GetJointPose(HandJointId.HandPinky0, out Pose pinkyPose))
         {
-            // Fallback: if joint data is missing, use the wrist rotation forward vector.
             return hand.transform.forward;
         }
 
@@ -146,13 +149,19 @@ public class HandTranlation : MonoBehaviour
         return normal;
     }
 
-    private bool detectOpenPalm()
+    private bool detectOpenPalm(Hand hand)
     {
-        return hand.IsConnected &&
-            !hand.GetFingerIsPinching(HandFinger.Thumb) &&
-            !hand.GetFingerIsPinching(HandFinger.Index) &&
-            !hand.GetFingerIsPinching(HandFinger.Middle) &&
-            !hand.GetFingerIsPinching(HandFinger.Ring) &&
-            !hand.GetFingerIsPinching(HandFinger.Pinky);
+
+        thumbPinching = hand.GetFingerIsPinching(HandFinger.Thumb);
+        indexPinching = hand.GetFingerIsPinching(HandFinger.Index);
+        middlePinching = hand.GetFingerIsPinching(HandFinger.Middle);
+        ringPinching = hand.GetFingerIsPinching(HandFinger.Ring);
+        pinkyPinching = hand.GetFingerIsPinching(HandFinger.Pinky);
+
+        return !thumbPinching
+            && !indexPinching
+            && !middlePinching
+            && !ringPinching
+            && !pinkyPinching;
     }
 }
