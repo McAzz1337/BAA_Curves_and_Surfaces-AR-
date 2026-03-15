@@ -1201,9 +1201,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HandRotation
   obj: {fileID: 1622617572}
   hand: {fileID: 1942463334}
+  otherHand: {fileID: 2025134669}
   leftHandTranslation: {fileID: 648259267}
   rightHandTranslation: {fileID: 2025134668}
   active: 0
+  locked: 0
   pinching: 0
   _wasPinchingLastFrame: 0
   newObj: {fileID: 0}
@@ -2031,6 +2033,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4539613205537861875, guid: 67626044a1c27844191bfd5d37a9875e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 648259268}
+    - targetCorrespondingSourceObject: {fileID: 4100734481103908967, guid: 67626044a1c27844191bfd5d37a9875e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2025134669}
   m_SourcePrefab: {fileID: 100100000, guid: 67626044a1c27844191bfd5d37a9875e, type: 3}
 --- !u!1 &992831020
 GameObject:
@@ -3951,17 +3956,52 @@ Transform:
   - {fileID: 2100576735}
   m_Father: {fileID: 937531820}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2025134666 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4100734481103908967, guid: 67626044a1c27844191bfd5d37a9875e, type: 3}
+  m_PrefabInstance: {fileID: 958835234}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2025134668 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6687151667939832252, guid: 67626044a1c27844191bfd5d37a9875e, type: 3}
   m_PrefabInstance: {fileID: 958835234}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2025134666}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71891313b44be154bb3728992f03da50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandTranlation
+--- !u!114 &2025134669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025134666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be92555c12b147e4ea9710219a7f8e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandRotation
+  obj: {fileID: 1622617572}
+  hand: {fileID: 124714528}
+  otherHand: {fileID: 648259268}
+  leftHandTranslation: {fileID: 648259267}
+  rightHandTranslation: {fileID: 2025134668}
+  active: 0
+  locked: 0
+  pinching: 0
+  _wasPinchingLastFrame: 0
+  newObj: {fileID: 0}
+  handTransform: {fileID: 0}
+  objStartRotation: {x: 0, y: 0, z: 0, w: 0}
+  pinchStartDirection: {x: 0, y: 0, z: 0}
+  newHandTransform: {fileID: 0}
+  isHandConnected: 0
+  thumbPinching: 0
+  indexPinching: 0
+  middlePinching: 0
 --- !u!1 &2100576734
 GameObject:
   m_ObjectHideFlags: 0
