@@ -11,13 +11,17 @@ public class HandTranlation : MonoBehaviour
     [DebugMember]
     public GameObject obj;
     [DebugMember]
+    public Hand hand;
+    [SerializeField]
+    public HandTranlation otherHand;
 
-    public Hand leftHand;
     [DebugMember]
+    public bool locked = false;
 
+    [DebugMember]
     public bool active = false;
-    [DebugMember]
 
+    [DebugMember]
     public Transform newObj;
     [DebugMember]
     public Transform handTransform;
@@ -61,34 +65,27 @@ public class HandTranlation : MonoBehaviour
 
     void Update()
     {
-        isPalmOpen = detectOpenPalm(leftHand);
+        if (locked)
+        {
+            return;
+        }
+
+        isPalmOpen = detectOpenPalm();
         if (isPalmOpen)
         {
-            updateHand(leftHand);
+            updateHand();
         }
         _wasPalmOpenLastFrame = isPalmOpen;
-
     }
 
-
-    void updateDelegate(Hand hand)
-    {
-        isPalmOpen = detectOpenPalm(leftHand);
-        if (isPalmOpen)
-        {
-            updateHand(leftHand);
-        }
-        _wasPalmOpenLastFrame = isPalmOpen;
-
-    }
 
     // Update is called once per frame
-    void updateHand(Hand hand)
+    void updateHand()
     {
         isHandConnected = hand.IsConnected;
 
-        palmNormal = GetPalmNormal(hand);
-        Vector3 toCamera = cam.transform.position - GetHandRootPosition(hand);
+        palmNormal = GetPalmNormal();
+        Vector3 toCamera = cam.transform.position - GetHandRootPosition();
         palmDotToCamera = Vector3.Dot(palmNormal, toCamera.normalized);
         isPalmFacingCamera = palmDotToCamera > 0.8f;
 
@@ -96,27 +93,33 @@ public class HandTranlation : MonoBehaviour
         {
             if (!_wasPalmOpenLastFrame || !_wasFacingCameraLastFrame)
             {
-                handOpenStartPosition = GetHandRootPosition(hand);
+                handOpenStartPosition = GetHandRootPosition();
                 objectStartPosition = obj.transform.position;
-                active = true;
+                setActive(true);
             }
 
             if (active)
             {
-                Vector3 currentHandPosition = GetHandRootPosition(hand);
+                Vector3 currentHandPosition = GetHandRootPosition();
                 Vector3 handDelta = currentHandPosition - handOpenStartPosition;
                 obj.transform.position = objectStartPosition + handDelta;
             }
         }
         else
         {
-            active = false;
+            setActive(false);
         }
 
         _wasFacingCameraLastFrame = isPalmFacingCamera;
     }
 
-    private Vector3 GetHandRootPosition(Hand hand)
+    private void setActive(bool value)
+    {
+        active = value;
+        otherHand.locked = value;
+    }
+
+    private Vector3 GetHandRootPosition()
     {
         if (hand.GetJointPose(HandJointId.HandWristRoot, out Pose pose))
         {
@@ -126,7 +129,7 @@ public class HandTranlation : MonoBehaviour
         return hand.transform.position;
     }
 
-    private Vector3 GetPalmNormal(Hand hand)
+    private Vector3 GetPalmNormal()
     {
 
         if (!hand.GetJointPose(HandJointId.HandWristRoot, out Pose wristPose) ||
@@ -141,6 +144,15 @@ public class HandTranlation : MonoBehaviour
         Vector3 toPinky = pinkyPose.position - wristPos;
 
         Vector3 normal = Vector3.Cross(toIndex, toPinky).normalized;
+        if (hand.Handedness == Handedness.Left)
+        {
+            normal = Vector3.Cross(toIndex, toPinky).normalized;
+        }
+        else
+        {
+            normal = Vector3.Cross(toPinky, toIndex).normalized;
+        }
+
         if (normal == Vector3.zero)
         {
             return hand.transform.forward;
@@ -149,7 +161,7 @@ public class HandTranlation : MonoBehaviour
         return normal;
     }
 
-    private bool detectOpenPalm(Hand hand)
+    private bool detectOpenPalm()
     {
 
         thumbPinching = hand.GetFingerIsPinching(HandFinger.Thumb);
