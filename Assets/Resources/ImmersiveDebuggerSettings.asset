@@ -23,7 +23,8 @@ MonoBehaviour:
     - Meta.XR.MultiplayerBlocks.Shared.FriendsMatchmaking
   - AssemblyName: Assembly-CSharp
     DebugTypes:
-    - HandTranlation
+    - HandRotation
+    - HandTranslation
   immersiveDebuggerEnabled: 1
   immersiveDebuggerDisplayAtStartup: 0
   enableOnlyInDebugBuild: 0
