@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1937668205880762436}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 540.22864, y: -0, z: -575.94934}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 561134981229018751}
-  - component: {fileID: 2793520043096586458}
+  - component: {fileID: 6687151667939832252}
   m_Layer: 0
   m_Name: RightHandControls
   m_TagString: Untagged
@@ -65,7 +65,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4149732436714882036}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2793520043096586458
+--- !u!114 &6687151667939832252
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HandTranlation
   obj: {fileID: 0}
   hand: {fileID: 0}
-  otherHand: {fileID: 1446906518674476425}
+  otherHand: {fileID: 970461168289271236}
   locked: 0
   active: 0
   newObj: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1884147859356104685}
-  - component: {fileID: 1446906518674476425}
+  - component: {fileID: 970461168289271236}
   m_Layer: 0
   m_Name: LeftHandControls
   m_TagString: Untagged
@@ -130,7 +130,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4149732436714882036}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1446906518674476425
+--- !u!114 &970461168289271236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HandTranlation
   obj: {fileID: 0}
   hand: {fileID: 0}
-  otherHand: {fileID: 2793520043096586458}
+  otherHand: {fileID: 6687151667939832252}
   locked: 0
   active: 0
   newObj: {fileID: 0}
