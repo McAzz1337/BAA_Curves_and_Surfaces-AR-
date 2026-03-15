@@ -365,6 +365,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f86b14a27b52f4f9298c33015b5c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.Grabbable
+--- !u!114 &124714528 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5300513996942578409, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
+  m_PrefabInstance: {fileID: 139142498}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a379f34d4f4f2e408d34f14bfb753ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &139142498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3104,6 +3115,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f86b14a27b52f4f9298c33015b5c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.Grabbable
+--- !u!1 &1475584726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1475584728}
+  - component: {fileID: 1475584727}
+  m_Layer: 0
+  m_Name: RightHandControls
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1475584727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475584726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71891313b44be154bb3728992f03da50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandTranlation
+  obj: {fileID: 1622617572}
+  hand: {fileID: 124714528}
+  otherHand: {fileID: 1891540707}
+  locked: 0
+  active: 0
+  newObj: {fileID: 0}
+  handTransform: {fileID: 0}
+  newHandTransform: {fileID: 0}
+  isHandConnected: 0
+  isPalmOpen: 0
+  thumbPinching: 0
+  indexPinching: 0
+  middlePinching: 0
+  ringPinching: 0
+  pinkyPinching: 0
+  palmNormal: {x: 0, y: 0, z: 0}
+  cam: {fileID: 1641490520}
+  palmDotToCamera: 0
+  isPalmFacingCamera: 0
+  handOpenStartPosition: {x: 0, y: 0, z: 0}
+  objectStartPosition: {x: 0, y: 0, z: 0}
+--- !u!4 &1475584728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475584726}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 540.2287, y: 0.00001, z: -575.94934}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1535768577
 GameObject:
   m_ObjectHideFlags: 0
@@ -3736,7 +3812,7 @@ GameObject:
   - component: {fileID: 1891540708}
   - component: {fileID: 1891540707}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: LeftHandControls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3755,7 +3831,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandTranlation
   obj: {fileID: 1622617572}
-  leftHand: {fileID: 1942463334}
+  hand: {fileID: 1942463334}
+  otherHand: {fileID: 1475584727}
+  locked: 0
   active: 0
   newObj: {fileID: 0}
   handTransform: {fileID: 0}
@@ -4255,3 +4333,4 @@ SceneRoots:
   - {fileID: 705899779}
   - {fileID: 937531820}
   - {fileID: 1891540708}
+  - {fileID: 1475584728}
