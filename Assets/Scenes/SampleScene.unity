@@ -3755,7 +3755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandTranlation
   obj: {fileID: 1622617572}
-  hand: {fileID: 1942463334}
+  leftHand: {fileID: 1942463334}
   active: 0
   newObj: {fileID: 0}
   handTransform: {fileID: 0}
