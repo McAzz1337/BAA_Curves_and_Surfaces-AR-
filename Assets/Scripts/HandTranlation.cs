@@ -67,6 +67,7 @@ public class HandTranlation : MonoBehaviour
     {
         if (locked)
         {
+            _wasPalmOpenLastFrame = false;
             return;
         }
 
