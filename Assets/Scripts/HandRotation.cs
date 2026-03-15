@@ -12,11 +12,15 @@ public class HandRotation : MonoBehaviour
     [DebugMember]
     public Hand hand;
 
+    [DebugMember]
+    public HandRotation otherHand;
     public HandTranslation leftHandTranslation;
     public HandTranslation rightHandTranslation;
 
     [DebugMember]
     public bool active = false;
+    [DebugMember]
+    public bool locked = false;
     [DebugMember]
     public bool pinching = false;
     [DebugMember]
@@ -53,6 +57,12 @@ public class HandRotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (locked)
+        {
+            _wasPinchingLastFrame = false;
+            return;
+        }
+
         pinching = detectHalfItalianPinch();
         if (pinching)
         {
@@ -89,6 +99,7 @@ public class HandRotation : MonoBehaviour
         active = value;
         leftHandTranslation.locked = value;
         rightHandTranslation.locked = value;
+        otherHand.locked = value;
     }
 
     private Vector3 getPinchDirection()
