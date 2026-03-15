@@ -85,8 +85,8 @@ public class HandTranslation : MonoBehaviour
     {
         isHandConnected = hand.IsConnected;
 
-        palmNormal = GetPalmNormal();
-        Vector3 toCamera = cam.transform.position - GetHandRootPosition();
+        palmNormal = getPalmNormal();
+        Vector3 toCamera = cam.transform.position - getHandRootPosition();
         palmDotToCamera = Vector3.Dot(palmNormal, toCamera.normalized);
         isPalmFacingCamera = palmDotToCamera > 0.8f;
 
@@ -94,14 +94,14 @@ public class HandTranslation : MonoBehaviour
         {
             if (!_wasPalmOpenLastFrame || !_wasFacingCameraLastFrame)
             {
-                handOpenStartPosition = GetHandRootPosition();
+                handOpenStartPosition = getHandRootPosition();
                 objectStartPosition = obj.transform.position;
                 setActive(true);
             }
 
             if (active)
             {
-                Vector3 currentHandPosition = GetHandRootPosition();
+                Vector3 currentHandPosition = getHandRootPosition();
                 Vector3 handDelta = currentHandPosition - handOpenStartPosition;
                 obj.transform.position = objectStartPosition + handDelta;
             }
@@ -120,7 +120,7 @@ public class HandTranslation : MonoBehaviour
         otherHand.locked = value;
     }
 
-    private Vector3 GetHandRootPosition()
+    private Vector3 getHandRootPosition()
     {
         if (hand.GetJointPose(HandJointId.HandWristRoot, out Pose pose))
         {
@@ -130,7 +130,7 @@ public class HandTranslation : MonoBehaviour
         return hand.transform.position;
     }
 
-    private Vector3 GetPalmNormal()
+    private Vector3 getPalmNormal()
     {
 
         if (!hand.GetJointPose(HandJointId.HandWristRoot, out Pose wristPose) ||
