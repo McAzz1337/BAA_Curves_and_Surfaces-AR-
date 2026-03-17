@@ -1,0 +1,96 @@
+using UnityEngine;
+using Meta.XR.ImmersiveDebugger;
+
+public class ControlsStatus : MonoBehaviour
+{
+    [DebugMember]
+    public ControlPoints controlPoints;
+
+    [SerializeField]
+    public ColorProvider colorProvider;
+
+    private bool translationActive;
+    private bool rotationActive;
+    private bool scalingActive;
+
+    [DebugMember]
+    public bool TranslationActive
+    {
+        get => translationActive;
+        set
+        {
+            translationActive = value;
+            updateColor();
+        }
+    }
+
+    [DebugMember]
+    public bool RotationActive
+    {
+        get => rotationActive;
+        set
+        {
+            rotationActive = value;
+            updateColor();
+        }
+    }
+
+    [DebugMember]
+    public bool ScalingActive
+    {
+        get => scalingActive;
+        set
+        {
+            scalingActive = value;
+            updateColor();
+        }
+    }
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    private void updateColor()
+    {
+        Color targetColor = Color.white;
+
+        if (translationActive && rotationActive)
+        {
+            targetColor = colorProvider.purple.color;
+        }
+        else if (translationActive)
+        {
+            targetColor = colorProvider.red.color; ;
+        }
+        else if (rotationActive)
+        {
+            targetColor = colorProvider.green.color;
+        }
+        else if (scalingActive)
+        {
+            targetColor = colorProvider.yellow.color; ;
+        }
+        else
+        {
+            targetColor = colorProvider.blue.color;
+        }
+
+        foreach (var t in controlPoints.getTransforms())
+        {
+            Renderer r = t.GetComponent<Renderer>();
+            if (r != null && r.material != null)
+            {
+                r.material.color = targetColor;
+            }
+        }
+    }
+
+}
