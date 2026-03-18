@@ -27,8 +27,6 @@ MonoBehaviour:
     - HandPinchRotation
     - HandPinchScaleing
     - HandPinchTranslation
-    - HandRotation
-    - HandTranslation
   immersiveDebuggerEnabled: 1
   immersiveDebuggerDisplayAtStartup: 0
   enableOnlyInDebugBuild: 0

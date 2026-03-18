@@ -66,3 +66,7 @@ sysinfo.txt
 *.bak
 *.backup
 *.orig
+
+# Unity build junk
+*_BurstDebugInformation_DoNotShip/
+*_BackUpThisFolder_ButDontShipItWithYourGame/
