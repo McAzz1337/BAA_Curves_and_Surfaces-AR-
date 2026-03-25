@@ -18,6 +18,7 @@ public class BezierSurface : MonoBehaviour
     private Mesh mesh;
     private Vector3[] vertices;
     private int[] triangles;
+    private Vector2[] uvs;
 
     void Awake()
     {
@@ -95,6 +96,7 @@ public class BezierSurface : MonoBehaviour
     {
         int vertCount = (resolution + 1) * (resolution + 1);
         vertices = new Vector3[vertCount];
+        uvs = new Vector2[vertCount];
 
         triangles = new int[resolution * resolution * 6];
 
@@ -118,6 +120,7 @@ public class BezierSurface : MonoBehaviour
 
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+        mesh.uv = uvs;
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
     }
@@ -131,14 +134,14 @@ public class BezierSurface : MonoBehaviour
             for (int x = 0; x <= resolution; x++)
             {
                 float u = (resolution > 0) ? (x / (float)resolution) : 0f;
-                vertices[index++] = EvaluateSurface(u, v);
-
-
-
+                vertices[index] = EvaluateSurface(u, v);
+                uvs[index] = new Vector2(u, v);
+                index++;
             }
         }
 
         mesh.vertices = vertices;
+        mesh.uv = uvs;
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
     }
