@@ -8,7 +8,10 @@ public class HandPinchTranslation : MonoBehaviour
     [DebugMember]
     public GameObject obj;
     [DebugMember]
-    public Hand hand;
+    public Hand pinchHand;
+    [DebugMember]
+    public Hand controlHand;
+
     [DebugMember]
     public ControlsStatus controlsStatus;
 
@@ -39,7 +42,7 @@ public class HandPinchTranslation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isHandConnected = hand.IsConnected;
+        isHandConnected = pinchHand.IsConnected;
         pinching = detectPinch();
         bool transition = false;
 
@@ -76,18 +79,18 @@ public class HandPinchTranslation : MonoBehaviour
 
     private Vector3 getHandRootPosition()
     {
-        if (hand.GetJointPose(HandJointId.HandWristRoot, out Pose pose))
+        if (controlHand.GetJointPose(HandJointId.HandWristRoot, out Pose pose))
         {
             return pose.position;
         }
 
-        return hand.transform.position;
+        return controlHand.transform.position;
     }
 
     private bool detectPinch()
     {
-        thumbPinching = hand.GetFingerIsPinching(HandFinger.Thumb);
-        middlePinching = hand.GetFingerIsPinching(HandFinger.Middle);
+        thumbPinching = pinchHand.GetFingerIsPinching(HandFinger.Thumb);
+        middlePinching = pinchHand.GetFingerIsPinching(HandFinger.Middle);
 
         return thumbPinching && middlePinching;
     }

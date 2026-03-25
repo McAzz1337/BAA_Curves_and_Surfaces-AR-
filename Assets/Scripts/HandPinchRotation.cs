@@ -7,7 +7,9 @@ public class HandPinchRotation : MonoBehaviour
     [DebugMember]
     public GameObject obj;
     [DebugMember]
-    public Hand hand;
+    public Hand pinchHand;
+    [DebugMember]
+    public Hand controlHand;
     [DebugMember]
     public ControlsStatus controlsStatus;
 
@@ -85,11 +87,11 @@ public class HandPinchRotation : MonoBehaviour
     private Vector3 getWristNormal()
     {
 
-        if (!hand.GetJointPose(HandJointId.HandWristRoot, out Pose wristPose) ||
-            !hand.GetJointPose(HandJointId.HandIndex1, out Pose indexPose) ||
-            !hand.GetJointPose(HandJointId.HandPinky0, out Pose pinkyPose))
+        if (!controlHand.GetJointPose(HandJointId.HandWristRoot, out Pose wristPose) ||
+            !controlHand.GetJointPose(HandJointId.HandIndex1, out Pose indexPose) ||
+            !controlHand.GetJointPose(HandJointId.HandPinky0, out Pose pinkyPose))
         {
-            return hand.transform.forward;
+            return controlHand.transform.forward;
         }
 
         Vector3 wristPos = wristPose.position;
@@ -97,7 +99,7 @@ public class HandPinchRotation : MonoBehaviour
         Vector3 toPinky = pinkyPose.position - wristPos;
 
         Vector3 normal = Vector3.Cross(toIndex, toPinky).normalized;
-        if (hand.Handedness == Handedness.Left)
+        if (controlHand.Handedness == Handedness.Left)
         {
             normal = Vector3.Cross(toIndex, toPinky).normalized;
         }
@@ -108,7 +110,7 @@ public class HandPinchRotation : MonoBehaviour
 
         if (normal == Vector3.zero)
         {
-            return hand.transform.forward;
+            return controlHand.transform.forward;
         }
 
         return normal;
@@ -116,31 +118,31 @@ public class HandPinchRotation : MonoBehaviour
 
     private Quaternion getWristRotation()
     {
-        if (hand.GetJointPose(HandJointId.HandWristRoot, out Pose wristPose))
+        if (controlHand.GetJointPose(HandJointId.HandWristRoot, out Pose wristPose))
         {
             return wristPose.rotation;
         }
 
-        return hand.transform.rotation;
+        return controlHand.transform.rotation;
     }
 
     private Vector3 getFingerAxis()
     {
-        if (hand.GetJointPose(HandJointId.HandIndex1, out Pose i1) &&
-            hand.GetJointPose(HandJointId.HandIndexTip, out Pose iTip))
+        if (controlHand.GetJointPose(HandJointId.HandIndex1, out Pose i1) &&
+            controlHand.GetJointPose(HandJointId.HandIndexTip, out Pose iTip))
         {
             Vector3 axis = (iTip.position - i1.position).normalized;
             if (axis != Vector3.zero) return axis;
         }
 
-        if (hand.GetJointPose(HandJointId.HandMiddle1, out Pose m1) &&
-            hand.GetJointPose(HandJointId.HandMiddleTip, out Pose mTip))
+        if (controlHand.GetJointPose(HandJointId.HandMiddle1, out Pose m1) &&
+            controlHand.GetJointPose(HandJointId.HandMiddleTip, out Pose mTip))
         {
             Vector3 axis = (mTip.position - m1.position).normalized;
             if (axis != Vector3.zero) return axis;
         }
 
-        return hand.transform.forward;
+        return controlHand.transform.forward;
     }
 
     private Quaternion getTwist(Quaternion q, Vector3 axis)
@@ -153,8 +155,8 @@ public class HandPinchRotation : MonoBehaviour
 
     private bool detectPinch()
     {
-        thumbPinching = hand.GetFingerIsPinching(HandFinger.Thumb);
-        middlePinching = hand.GetFingerIsPinching(HandFinger.Middle);
+        thumbPinching = pinchHand.GetFingerIsPinching(HandFinger.Thumb);
+        middlePinching = pinchHand.GetFingerIsPinching(HandFinger.Middle);
 
         return thumbPinching && middlePinching;
     }
