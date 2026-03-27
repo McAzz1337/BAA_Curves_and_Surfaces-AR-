@@ -27,6 +27,7 @@ MonoBehaviour:
     - HandPinchRotation
     - HandPinchScaleing
     - HandPinchTranslation
+    - MenuCanvas
   immersiveDebuggerEnabled: 1
   immersiveDebuggerDisplayAtStartup: 0
   enableOnlyInDebugBuild: 0
