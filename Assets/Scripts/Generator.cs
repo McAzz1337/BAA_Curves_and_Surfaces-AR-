@@ -39,6 +39,7 @@ public class Generator : MonoBehaviour
         float distance = 0.25f;
         Vector3 inFront = cam.transform.position + cam.transform.forward * 0.5f;
         Vector3 right = cam.transform.right;
+        Vector3 up = cam.transform.up;
 
         GameObject bezierCurve = Instantiate(berzierCurve, inFront, Quaternion.identity);
         if (bezierCurve == null)
@@ -56,44 +57,24 @@ public class Generator : MonoBehaviour
 
         if (evenNodesCount)
         {
-            float firtDistance = distance * 0.5f;
-            for (int i = 0; i < nodes / 2; i++)
+            Vector3 farLeft = inFront - right * ((nodes - 1) * distance * 0.5f);
+            for (int i = 0; i < nodes; i++)
             {
-                Vector3 positionA = Vector3.zero;
-                Vector3 positionB = Vector3.zero;
-                if (i == 0)
-                {
-                    positionA += right * firtDistance;
-                    positionB -= right * firtDistance;
-                }
-                else
-                {
-                    positionA += right * distance;
-                    positionB -= right * distance;
-                }
+                Vector3 position = farLeft + right * (i * distance);
 
-                GameObject cpA = Instantiate(controlPointPrefab, positionA, Quaternion.identity);
-                GameObject cpB = Instantiate(controlPointPrefab, positionB, Quaternion.identity);
-                cpA.transform.SetParent(controlPointsParent.transform);
-                cpB.transform.SetParent(controlPointsParent.transform);
+                GameObject cp = Instantiate(controlPointPrefab, position, Quaternion.identity);
+                cp.transform.SetParent(controlPointsParent.transform);
             }
         }
         else
         {
-            GameObject cp = Instantiate(controlPointPrefab, Vector3.zero, Quaternion.identity);
-            cp.transform.SetParent(controlPointsParent.transform);
-            for (int i = 1; i <= (nodes - 1) / 2; i++)
+            Vector3 farLeft = inFront - right * (distance * (nodes / 2));
+            for (int i = 0; i < nodes; i++)
             {
-                Vector3 positionA = Vector3.zero;
-                Vector3 positionB = Vector3.zero;
+                Vector3 position = farLeft + right * (i * distance);
 
-                positionA += right * distance;
-                positionB -= right * distance;
-
-                GameObject cpA = Instantiate(controlPointPrefab, positionA, Quaternion.identity);
-                GameObject cpB = Instantiate(controlPointPrefab, positionB, Quaternion.identity);
-                cpA.transform.SetParent(controlPointsParent.transform);
-                cpB.transform.SetParent(controlPointsParent.transform);
+                GameObject cp = Instantiate(controlPointPrefab, position, Quaternion.identity);
+                cp.transform.SetParent(controlPointsParent.transform);
             }
         }
 
