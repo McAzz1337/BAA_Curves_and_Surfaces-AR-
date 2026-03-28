@@ -17,11 +17,10 @@ public class BezierCurveMesh : MonoBehaviour
         MeshFilter mf = GetComponent<MeshFilter>();
         if (mf == null) return;
 
-        Mesh mesh = mf.sharedMesh;
+        mesh = mf.sharedMesh;
         if (mesh == null)
         {
             mesh = new Mesh();
-            this.mesh = mesh;
             mesh.name = "BezierCurveMesh";
             mf.sharedMesh = mesh;
         }
@@ -37,8 +36,12 @@ public class BezierCurveMesh : MonoBehaviour
     void Update()
     {
 
+        /*
+                List<Vector3> positions = controlPoints.getTransforms()
+                    .Select(t => transform.InverseTransformPoint(t.transform.position)).ToList();
+          */
         List<Vector3> positions = controlPoints.getTransforms()
-            .Select(t => transform.InverseTransformPoint(t.transform.position)).ToList();
+                    .Select(t => transform.position).ToList();
 
         List<Vector3> points = Bezier.curve(positions, numSamples);
         generateMesh(points);

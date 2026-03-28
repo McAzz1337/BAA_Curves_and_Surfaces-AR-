@@ -7,11 +7,7 @@ public class ControlPoints : MonoBehaviour
 
     void Awake()
     {
-        transforms = new Transform[transform.childCount];
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            transforms[i] = transform.GetChild(i);
-        }
+        gatherControlPoints();
     }
     void Start()
     {
@@ -27,5 +23,15 @@ public class ControlPoints : MonoBehaviour
     public Transform[] getTransforms()
     {
         return transforms;
+    }
+
+    public void gatherControlPoints()
+    {
+        transforms = new Transform[transform.childCount];
+        Debug.Log("Gathering control points. Number of children: " + transform.childCount);
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transforms[i] = transform.GetChild(i);
+        }
     }
 }
