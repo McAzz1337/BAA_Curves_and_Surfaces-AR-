@@ -50,6 +50,12 @@ public class MenuCanvas : MonoBehaviour
         rightWasPinchingLastFrame = rightPinching;
     }
 
+    public void hide()
+    {
+        active = false;
+        toggleCanvas(active);
+    }
+
     private void toggleCanvas(bool show)
     {
         canvasGroup.alpha = show ? 1 : 0;
