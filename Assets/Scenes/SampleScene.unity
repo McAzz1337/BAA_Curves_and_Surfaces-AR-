@@ -1983,7 +1983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4ce9cd2dd1acb47a30aca965bf4c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandPinchRotation
-  obj: {fileID: 1622617572}
+  appController: {fileID: 1512762635}
   pinchHand: {fileID: 1942463334}
   controlHand: {fileID: 124714528}
   controlsStatus: {fileID: 958835236}
@@ -3200,9 +3200,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1937668205880762436, guid: 67626044a1c27844191bfd5d37a9875e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 958835236}
-    - targetCorrespondingSourceObject: {fileID: 1937668205880762436, guid: 67626044a1c27844191bfd5d37a9875e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 958835238}
     - targetCorrespondingSourceObject: {fileID: 4539613205537861875, guid: 67626044a1c27844191bfd5d37a9875e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 648259266}
@@ -3227,32 +3224,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 893dc8e6a7512a542b901a12085f6e7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlsStatus
-  controlPoints: {fileID: 1561293614}
+  appController: {fileID: 1512762635}
   colorProvider: {fileID: 1179731421}
---- !u!114 &958835238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 958835235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5abfee9b569dc5542973ee220942ae0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HandPinchScaleing
-  obj: {fileID: 1622617572}
-  leftHand: {fileID: 1942463334}
-  rightHand: {fileID: 124714528}
-  controlsStatus: {fileID: 958835236}
-  startDistance: 0
-  startScale:
-    m_Scale: {x: 0, y: 0, z: 0}
-    m_IsNone: 0
-  leftHandPinching: 0
-  rightHandPinching: 0
-  leftWasPinchingLastFrame: 0
-  rightWasPinchingLastFrame: 0
 --- !u!1 &976779426
 GameObject:
   m_ObjectHideFlags: 0
@@ -4871,17 +4844,6 @@ MonoBehaviour:
   nodesDisplay: {fileID: 1633142557}
   typeDropdown: {fileID: 203860837}
   menuCanvas: {fileID: 1973567284}
---- !u!114 &1561293614 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4343900609281002780, guid: 778f8a5d5fc06a9419fc1257d40409a1, type: 3}
-  m_PrefabInstance: {fileID: 2732315767887812288}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27fb36e67471f2947b3d554bb54a1b1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ControlPoints
 --- !u!1 &1608480567
 GameObject:
   m_ObjectHideFlags: 0
@@ -7001,7 +6963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5917701893a40464393d9ae5878e4ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandPinchTranslation
-  obj: {fileID: 1622617572}
+  appController: {fileID: 1512762635}
   pinchHand: {fileID: 124714528}
   controlHand: {fileID: 1942463334}
   controlsStatus: {fileID: 958835236}
