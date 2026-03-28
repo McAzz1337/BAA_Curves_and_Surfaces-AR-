@@ -5,30 +5,31 @@ using TMPro;
 public class MenuStatus : MonoBehaviour
 {
 
-    private enum Type
-    {
-        BEZIER_CURVVE,
-        BEZIER_SURFACE,
-        BSPLINES_CURVE
-    }
 
     private int nodes;
 
+
+    [SerializeField]
+    private ApplicationController appController;
 
     public Button generateButton;
     public Slider nodesSlider;
     public TextMeshProUGUI nodesDisplay;
     public TMP_Dropdown typeDropdown;
-    private Type selectedType;
+    private EType selectedType;
+
+    [SerializeField]
+    private MenuCanvas menuCanvas;
 
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         generateButton.onClick.AddListener(OnGenerateButtonClicked);
         nodesSlider.onValueChanged.AddListener(OnSliderValueChanged);
         typeDropdown.onValueChanged.AddListener(OnDropdownValueChanged);
+
+        nodes = (int)nodesSlider.value;
+        updateNodesText();
     }
 
     // Update is called once per frame
@@ -39,19 +40,33 @@ public class MenuStatus : MonoBehaviour
 
     private void OnGenerateButtonClicked()
     {
-        Debug.Log("Generate button clicked!");
+        GameObject obj = appController.GetComponent<Generator>().
+            generate(selectedType,
+                 nodes,
+                 appController.Cam);
+        if (obj != null)
+        {
+            appController.OBJ = obj;
+        }
+
+        menuCanvas.hide();
     }
 
     private void OnSliderValueChanged(float value)
     {
-        int nodesValue = (int)value;
-        nodes = nodesValue;
-        nodesDisplay.text = "Nodes: " + nodesValue.ToString();
+        nodes = (int)value;
+        updateNodesText();
+    }
+
+    private void updateNodesText()
+    {
+        nodesDisplay.text = "Nodes: " + nodes.ToString();
+
     }
 
     private void OnDropdownValueChanged(int index)
     {
-        selectedType = (Type)index;
+        selectedType = (EType)index;
         string selectedText = typeDropdown.options[index].text;
         Debug.Log("Selected type: " + selectedText + " (Index: " + index + ")");
     }
