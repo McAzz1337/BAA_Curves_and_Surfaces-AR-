@@ -3,8 +3,8 @@ using Meta.XR.ImmersiveDebugger;
 
 public class ControlsStatus : MonoBehaviour
 {
-    [DebugMember]
-    public ControlPoints controlPoints;
+    [SerializeField]
+    private ApplicationController appController;
 
     [SerializeField]
     public ColorProvider colorProvider;
@@ -83,6 +83,7 @@ public class ControlsStatus : MonoBehaviour
             targetColor = colorProvider.blue.color;
         }
 
+        ControlPoints controlPoints = appController.OBJ.GetComponentInChildren<ControlPoints>();
         foreach (var t in controlPoints.getTransforms())
         {
             Renderer r = t.GetComponent<Renderer>();
