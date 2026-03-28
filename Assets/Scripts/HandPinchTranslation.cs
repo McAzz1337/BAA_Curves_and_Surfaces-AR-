@@ -4,9 +4,8 @@ using Oculus.Interaction.Input;
 
 public class HandPinchTranslation : MonoBehaviour
 {
-
-    [DebugMember]
-    public GameObject obj;
+    [SerializeField]
+    private ApplicationController appController;
     [DebugMember]
     public Hand pinchHand;
     [DebugMember]
@@ -60,7 +59,7 @@ public class HandPinchTranslation : MonoBehaviour
         {
             Debug.Log("Set start position");
             handStartPosition = getHandRootPosition();
-            objectStartPosition = obj.transform.position;
+            objectStartPosition = appController.OBJ.transform.position;
         }
 
         if (controlsStatus.TranslationActive)
@@ -74,7 +73,7 @@ public class HandPinchTranslation : MonoBehaviour
     private void updateObject()
     {
         Vector3 delta = getHandRootPosition() - handStartPosition;
-        obj.transform.position = objectStartPosition + delta;
+        appController.OBJ.transform.position = objectStartPosition + delta;
     }
 
     private Vector3 getHandRootPosition()

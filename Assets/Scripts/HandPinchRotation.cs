@@ -4,8 +4,8 @@ using Oculus.Interaction.Input;
 public class HandPinchRotation : MonoBehaviour
 {
 
-    [DebugMember]
-    public GameObject obj;
+    [SerializeField]
+    private ApplicationController appController;
     [DebugMember]
     public Hand pinchHand;
     [DebugMember]
@@ -58,7 +58,7 @@ public class HandPinchRotation : MonoBehaviour
             Debug.Log("Set start rotation");
             wristStartRotation = getWristRotation();
             rotationAxis = getFingerAxis();
-            objStartRotation = obj.transform.rotation;
+            objStartRotation = appController.OBJ.transform.rotation;
         }
 
         if (controlsStatus.RotationActive)
@@ -81,7 +81,7 @@ public class HandPinchRotation : MonoBehaviour
             angle = -angle;
         }
 
-        obj.transform.rotation = objStartRotation * Quaternion.AngleAxis(angle, rotationAxis);
+        appController.OBJ.transform.rotation = objStartRotation * Quaternion.AngleAxis(angle, rotationAxis);
     }
 
     private Vector3 getWristNormal()
