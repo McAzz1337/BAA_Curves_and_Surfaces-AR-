@@ -27,7 +27,7 @@ public class MenuCanvas : MonoBehaviour
 
     void Aake()
     {
-        toggleCanvas(active);
+        hide();
     }
 
     void Update()
