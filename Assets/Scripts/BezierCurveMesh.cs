@@ -30,19 +30,21 @@ public class BezierCurveMesh : MonoBehaviour
         {
             mr.sharedMaterial = new Material(Shader.Find("Standard")) { color = Color.red };
         }
+
+        Debug.Log("BezierCurveMesh at position " + transform.position);
     }
 
 
     void Update()
     {
 
-        /*
-                List<Vector3> positions = controlPoints.getTransforms()
-                    .Select(t => transform.InverseTransformPoint(t.transform.position)).ToList();
-          */
-        List<Vector3> positions = controlPoints.getTransforms()
-                    .Select(t => transform.position).ToList();
 
+        List<Vector3> positions = controlPoints.getTransforms()
+            .Select(t => transform.InverseTransformPoint(t.transform.position)).ToList();
+        /*
+        List<Vector3> positions = controlPoints.getTransforms()
+                    .Select(t => t.position).ToList();
+*/
         List<Vector3> points = Bezier.curve(positions, numSamples);
         generateMesh(points);
     }
