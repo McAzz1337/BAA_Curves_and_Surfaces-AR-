@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ControlPoints : MonoBehaviour
@@ -34,4 +35,6 @@ public class ControlPoints : MonoBehaviour
             transforms[i] = transform.GetChild(i);
         }
     }
+
+
 }
