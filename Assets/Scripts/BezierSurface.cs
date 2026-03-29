@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class BezierSurface : MonoBehaviour
 {
-    public Transform[,] controlPoints = new Transform[4, 4];
+    public Transform[,] controlPoints;
 
     public ControlPoints controlPointsProvider;
     public int resolution = 1;
@@ -74,22 +74,24 @@ public class BezierSurface : MonoBehaviour
         if (controlPointsProvider != null)
         {
             Transform[] points = controlPointsProvider.getTransforms();
-            if (points.Length == 16)
+
+            int gridSize = Mathf.RoundToInt(Mathf.Sqrt(points.Length));
+
+            if (gridSize * gridSize == points.Length && gridSize > 0)
             {
+                controlPoints = new Transform[gridSize, gridSize];
+
                 int index = 0;
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < gridSize; i++)
                 {
-                    for (int j = 0; j < 4; j++)
+                    for (int j = 0; j < gridSize; j++)
                     {
                         controlPoints[i, j] = points[index++];
                     }
                 }
                 return;
             }
-
         }
-
-
     }
 
     void GenerateMesh()
@@ -152,9 +154,9 @@ public class BezierSurface : MonoBehaviour
 
         int maxI = -1;
         int maxJ = -1;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < controlPoints.GetLength(0); i++)
         {
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < controlPoints.GetLength(1); j++)
             {
                 if (controlPoints[i, j] != null)
                 {
