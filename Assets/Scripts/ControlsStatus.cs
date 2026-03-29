@@ -1,5 +1,6 @@
 using UnityEngine;
 using Meta.XR.ImmersiveDebugger;
+using UnityEngine.UI;
 
 public class ControlsStatus : MonoBehaviour
 {
@@ -8,6 +9,14 @@ public class ControlsStatus : MonoBehaviour
 
     [SerializeField]
     public ColorProvider colorProvider;
+
+    [SerializeField]
+    private TranslationSpeedCanvas translationSpeedCanvas;
+
+    [SerializeField]
+    private Slider translationSpeedSlider;
+    [SerializeField]
+    private HandPinchTranslation handPinchTranslation;
 
     private bool translationActive;
     private bool rotationActive;
@@ -20,6 +29,8 @@ public class ControlsStatus : MonoBehaviour
         set
         {
             translationActive = value;
+            translationSpeedCanvas.toggleCanvas(translationActive);
+            handPinchTranslation.Multiplier = translationSpeedSlider.value;
             updateColor();
         }
     }
@@ -49,7 +60,13 @@ public class ControlsStatus : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        translationSpeedSlider.onValueChanged.AddListener(changeTranslationSpeed);
+    }
 
+    private void changeTranslationSpeed(float value)
+    {
+        handPinchTranslation.Multiplier = value;
+        handPinchTranslation.resetStartPosition();
     }
 
     // Update is called once per frame
@@ -68,7 +85,7 @@ public class ControlsStatus : MonoBehaviour
         }
         else if (translationActive)
         {
-            targetColor = colorProvider.red.color; ;
+            targetColor = colorProvider.red.color;
         }
         else if (rotationActive)
         {
