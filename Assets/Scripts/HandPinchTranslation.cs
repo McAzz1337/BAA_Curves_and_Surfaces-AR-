@@ -32,6 +32,17 @@ public class HandPinchTranslation : MonoBehaviour
     [DebugMember]
     public bool middlePinching;
 
+    private float multiplier = 1.0f;
+
+    public float Multiplier
+    {
+        get => multiplier;
+        set
+        {
+            multiplier = value;
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -73,7 +84,13 @@ public class HandPinchTranslation : MonoBehaviour
     private void updateObject()
     {
         Vector3 delta = getHandRootPosition() - handStartPosition;
-        appController.OBJ.transform.position = objectStartPosition + delta;
+        appController.OBJ.transform.position = objectStartPosition + multiplier * delta;
+    }
+
+    public void resetStartPosition()
+    {
+        handStartPosition = getHandRootPosition();
+        objectStartPosition = appController.OBJ.transform.position;
     }
 
     private Vector3 getHandRootPosition()
