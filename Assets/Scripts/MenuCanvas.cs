@@ -25,7 +25,7 @@ public class MenuCanvas : MonoBehaviour
     public float offsetX = 0.1f;
     public float offsetZ = 0.3f;
 
-    void Aake()
+    void Start()
     {
         hide();
     }
