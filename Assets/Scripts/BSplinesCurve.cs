@@ -46,7 +46,6 @@ public class BSplinesCurve : MonoBehaviour
         float tMax = (int)generateKnots();
         List<Vector3> points = new List<Vector3>();
         float tMin = 0;
-        //float tMax = 1;
         for (int i = 0; i < numSamples; i++)
         {
             float t = tMin + (float)i / numSamples * (tMax - tMin);
