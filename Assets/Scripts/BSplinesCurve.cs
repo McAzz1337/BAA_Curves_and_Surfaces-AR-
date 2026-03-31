@@ -43,11 +43,11 @@ public class BSplinesCurve : MonoBehaviour
         List<Vector3> positions = controlPoints.getTransforms()
             .Select(t => transform.InverseTransformPoint(t.position)).ToList();
         if (positions.Count < degree + 1) return;
-        generateKnots();
+        float tMax = (int)generateKnots();
         List<Vector3> points = new List<Vector3>();
         float tMin = 0;
-        float tMax = 1;
-        for (int i = 0; i <= numSamples; i++)
+        //float tMax = 1;
+        for (int i = 0; i < numSamples; i++)
         {
             float t = tMin + (float)i / numSamples * (tMax - tMin);
             points.Add(evaluate(t, positions));
@@ -55,29 +55,36 @@ public class BSplinesCurve : MonoBehaviour
         generateMesh(points);
     }
 
-    void generateKnots()
+    int generateKnots()
     {
-        if (controlPoints == null) return;
+        if (controlPoints == null) return 0;
         int n = controlPoints.getTransforms().Length - 1;
-        if (n < degree) return;
+        if (n < degree) return 0;
         int numKnots = n + degree + 1;
         knots = new float[numKnots + 1];
         // Clamped knot vector
         int firstEnd = degree;
         int lastStart = n + 1;
         int numMiddle = lastStart - firstEnd - 1;
-        for (int i = 0; i <= firstEnd; i++)
-        {
-            knots[i] = 0;
-        }
-        for (int i = 0; i < numMiddle; i++)
-        {
-            knots[firstEnd + 1 + i] = (i + 1.0f) / (numMiddle + 1);
-        }
+
+        // try
+        int indx = 0;
+        int val = 0;
         for (int i = 0; i <= degree; i++)
         {
-            knots[lastStart + i] = 1;
+            knots[indx++] = val;
         }
+        for (int i = 0; i < n - degree - 1; i++)
+        {
+            knots[indx++] = ++val;
+        }
+        ++val;
+        for (int i = 0; i <= degree; i++)
+        {
+            knots[indx++] = val;
+        }
+
+        return val;
     }
 
     float basis(int i, int p, float t)
