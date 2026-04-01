@@ -46,7 +46,7 @@ public class BSplinesCurve : MonoBehaviour
         float tMax = (int)generateKnots();
         List<Vector3> points = new List<Vector3>();
         float tMin = 0;
-        for (int i = 0; i < numSamples; i++)
+        for (int i = 0; i <= numSamples; i++)
         {
             float t = tMin + (float)i / numSamples * (tMax - tMin);
             points.Add(evaluate(t, positions));
@@ -90,7 +90,9 @@ public class BSplinesCurve : MonoBehaviour
     {
         if (p == 0)
         {
-            if (t >= knots[i] && t <= knots[i + 1]) return 1;
+            if (t >= knots[i] && t < knots[i + 1]) return 1;
+            // Special case: at the very end of the domain, include the last point
+            if (i == knots.Length - 2 && t == knots[i + 1]) return 1;
             return 0;
         }
         float left = 0;
