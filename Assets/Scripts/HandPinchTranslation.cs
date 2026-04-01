@@ -6,10 +6,6 @@ public class HandPinchTranslation : MonoBehaviour
 {
     [SerializeField]
     private ApplicationController appController;
-    [DebugMember]
-    public Hand pinchHand;
-    [DebugMember]
-    public Hand controlHand;
 
     [DebugMember]
     public ControlsStatus controlsStatus;
@@ -19,13 +15,16 @@ public class HandPinchTranslation : MonoBehaviour
     [DebugMember]
     public bool wasPinchingLastFrame = false;
 
+    public bool buttonPressedLastFrame = false;
+
     [DebugMember]
     public Vector3 handStartPosition;
+
+    [DebugMember]
+    public Vector3 controllerStartPostion;
     [DebugMember]
     public Vector3 objectStartPosition;
 
-    [DebugMember]
-    public bool isHandConnected;
 
     [DebugMember]
     public bool thumbPinching;
@@ -52,62 +51,119 @@ public class HandPinchTranslation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isHandConnected = pinchHand.IsConnected;
-        pinching = detectPinch();
-        bool transition = false;
-
-        if (pinching)
+        if (appController.TranslationActivationHand.IsConnected)
         {
-            if (!wasPinchingLastFrame)
+
+            pinching = detectPinch();
+            bool transition = false;
+
+            if (pinching)
             {
-                transition = true;
-                controlsStatus.TranslationActive = !controlsStatus.TranslationActive;
-                Debug.Log("Transition");
+                if (!wasPinchingLastFrame)
+                {
+                    transition = true;
+                    controlsStatus.TranslationActive = !controlsStatus.TranslationActive;
+                    Debug.Log("Transition");
+                }
             }
-        }
 
-        if (transition && controlsStatus.TranslationActive)
+            if (transition && controlsStatus.TranslationActive)
+            {
+                Debug.Log("Set start position");
+                handStartPosition = getHandRootPosition();
+                objectStartPosition = appController.OBJ.transform.position;
+            }
+
+            if (controlsStatus.TranslationActive)
+            {
+                updateObjectByHand();
+            }
+
+            wasPinchingLastFrame = pinching;
+        }
+        else if (appController.TranslationController.IsConnected)
         {
-            Debug.Log("Set start position");
-            handStartPosition = getHandRootPosition();
-            objectStartPosition = appController.OBJ.transform.position;
-        }
+            bool buttonPressed = appController.TranslationController.ControllerInput.PrimaryButton;
+            bool transition = false;
+            if (buttonPressed && !buttonPressedLastFrame)
+            {
+                controllerStartPostion = getControllerPosition();
+                objectStartPosition = appController.OBJ.transform.position;
+                transition = true;
+            }
 
-        if (controlsStatus.TranslationActive)
-        {
-            updateObject();
-        }
+            if (transition)
+            {
+                controlsStatus.TranslationActive = !controlsStatus.TranslationActive;
+            }
 
-        wasPinchingLastFrame = pinching;
+
+            if (controlsStatus.TranslationActive)
+            {
+                updateObjectByController();
+            }
+
+            buttonPressedLastFrame = buttonPressed;
+        }
     }
 
-    private void updateObject()
+    private void updateObjectByHand()
     {
         Vector3 delta = getHandRootPosition() - handStartPosition;
         appController.OBJ.transform.position = objectStartPosition + multiplier * delta;
     }
 
+    private void updateObjectByController()
+    {
+        Vector3 delta = getControllerPosition() - controllerStartPostion;
+        appController.OBJ.transform.position = objectStartPosition + multiplier * delta;
+    }
+
     public void resetStartPosition()
     {
-        handStartPosition = getHandRootPosition();
-        objectStartPosition = appController.OBJ.transform.position;
+        if (appController.TranslationActivationHand.IsConnected)
+        {
+            handStartPosition = getHandRootPosition();
+            objectStartPosition = appController.OBJ.transform.position;
+        }
+        else if (appController.TranslationController.IsConnected)
+        {
+            controllerStartPostion = getControllerPosition();
+            objectStartPosition = appController.OBJ.transform.position;
+        }
+
     }
 
     private Vector3 getHandRootPosition()
     {
-        if (controlHand.GetJointPose(HandJointId.HandWristRoot, out Pose pose))
+        if (appController.RotationActivationHand.GetJointPose(HandJointId.HandWristRoot, out Pose pose))
         {
             return pose.position;
         }
 
-        return controlHand.transform.position;
+        return appController.RotationActivationHand.transform.position;
+    }
+
+    private Vector3 getControllerPosition()
+    {
+        if (appController.TranslationController.TryGetPose(out Pose pose))
+        {
+            return pose.position;
+        }
+
+        return Vector3.zero;
     }
 
     private bool detectPinch()
     {
-        thumbPinching = pinchHand.GetFingerIsPinching(HandFinger.Thumb);
-        middlePinching = pinchHand.GetFingerIsPinching(HandFinger.Middle);
+        thumbPinching = appController.TranslationActivationHand.GetFingerIsPinching(HandFinger.Thumb);
+        middlePinching = appController.TranslationActivationHand.GetFingerIsPinching(HandFinger.Middle);
 
-        return thumbPinching && middlePinching;
+        bool indexPinching = appController.TranslationActivationHand.GetFingerIsPinching(HandFinger.Index);
+        bool ringPinching = appController.TranslationActivationHand.GetFingerIsPinching(HandFinger.Ring);
+        bool pinkyPinching = appController.TranslationActivationHand.GetFingerIsPinching(HandFinger.Pinky);
+
+        return (thumbPinching && middlePinching) &&
+            !(indexPinching || ringPinching || pinkyPinching);
     }
 }

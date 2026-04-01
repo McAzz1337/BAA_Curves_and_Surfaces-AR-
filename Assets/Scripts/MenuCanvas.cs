@@ -5,19 +5,15 @@ using Meta.XR.ImmersiveDebugger;
 public class MenuCanvas : MonoBehaviour
 {
 
-    public Hand leftHand;
-    public Hand rightHand;
-
-    [DebugMember]
-    public bool leftPinching;
-    [DebugMember]
-    public bool rightPinching;
+    public ApplicationController appController;
 
     [DebugMember]
     public bool active = false;
 
-    private bool leftWasPinchingLastFrame;
-    private bool rightWasPinchingLastFrame;
+    private bool rotationWasPinchingLastFrame;
+    private bool translationWasPinchingLastFrame;
+
+    private bool menuPressedLastFrame;
 
     public CanvasGroup canvasGroup;
 
@@ -32,22 +28,53 @@ public class MenuCanvas : MonoBehaviour
 
     void Update()
     {
-        bool leftPinching = detectPinch(leftHand);
-        bool rightPinching = detectPinch(rightHand);
-
-        if ((leftPinching && !leftWasPinchingLastFrame) ||
-         (rightPinching && !rightWasPinchingLastFrame))
+        if (appController.RotationActivationHand && appController.TranslationActivationHand.IsConnected)
         {
-            active = !active;
-            toggleCanvas(active);
-            if (active)
-            {
-                positioncanvas();
-            }
-        }
 
-        leftWasPinchingLastFrame = leftPinching;
-        rightWasPinchingLastFrame = rightPinching;
+            bool rotationHandPinching = detectPinch(appController.TranslationActivationHand);
+            bool translationHandPinching = detectPinch(appController.RotationActivationHand);
+
+            if ((rotationHandPinching && !rotationWasPinchingLastFrame) ||
+             (translationHandPinching && !translationWasPinchingLastFrame))
+            {
+                active = !active;
+                toggleCanvas(active);
+                if (active)
+                {
+                    positioncanvas();
+                }
+            }
+
+            rotationWasPinchingLastFrame = rotationHandPinching;
+            translationWasPinchingLastFrame = translationHandPinching;
+        }
+        else if (appController.RotationController.IsConnected && appController.TranslationController.IsConnected)
+        {
+            Controller controller;
+            if (appController.RotationActivationHand.Handedness == Handedness.Left)
+            {
+                controller = appController.RotationController;
+            }
+            else
+            {
+                controller = appController.TranslationController;
+            }
+
+            bool menuPressed = controller.ControllerInput.SecondaryButton;
+
+            if (menuPressed && !menuPressedLastFrame)
+
+            {
+                active = !active;
+                toggleCanvas(active);
+                if (active)
+                {
+                    positioncanvas();
+                }
+            }
+
+            menuPressedLastFrame = menuPressed;
+        }
     }
 
     public void hide()
