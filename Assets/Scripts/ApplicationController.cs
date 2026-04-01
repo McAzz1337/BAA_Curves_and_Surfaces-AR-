@@ -27,12 +27,26 @@ public class ApplicationController : MonoBehaviour
     }
 
     [SerializeField]
+    private Controller translationController;
+    public Controller TranslationController
+    {
+        get { return translationController; }
+    }
+
+    [SerializeField]
     private Hand rotationActivationHand;
+
     public Hand RotationActivationHand
     {
         get { return rotationActivationHand; }
     }
 
+    [SerializeField]
+    private Controller rotationController;
+    public Controller RotationController
+    {
+        get { return rotationController; }
+    }
 
     void Start()
     {
