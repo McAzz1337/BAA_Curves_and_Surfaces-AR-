@@ -2223,6 +2223,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 557714144}
   m_CullTransparentMesh: 1
+--- !u!114 &574952405 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4881006083791730175, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
+  m_PrefabInstance: {fileID: 139142498}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae60cfa43388e449a7518f36418f81c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &618453244
 GameObject:
   m_ObjectHideFlags: 0
@@ -2430,12 +2441,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandPinchRotation
   appController: {fileID: 1512762635}
-  pinchHand: {fileID: 1942463334}
-  controlHand: {fileID: 124714528}
   controlsStatus: {fileID: 958835236}
   pinching: 0
   wasPinchingLastFrame: 0
+  buttonPressedLastFrame: 0
   wristStartRotation: {x: 0, y: 0, z: 0, w: 0}
+  controllerStartRotation: {x: 0, y: 0, z: 0, w: 0}
   objStartRotation: {x: 0, y: 0, z: 0, w: 0}
   rotationAxis: {x: 0, y: 0, z: 0}
   isHandConnected: 0
@@ -5369,7 +5380,9 @@ MonoBehaviour:
   obj: {fileID: 1622617572}
   cam: {fileID: 1641490520}
   translationActivationHand: {fileID: 124714528}
+  translationController: {fileID: 574952405}
   rotationActivationHand: {fileID: 1942463334}
+  rotationController: {fileID: 2065892235}
 --- !u!4 &1512762636
 Transform:
   m_ObjectHideFlags: 0
@@ -7559,10 +7572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f91f648d07d366e45aba6bd592683e86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuCanvas
-  leftHand: {fileID: 1942463334}
-  rightHand: {fileID: 124714528}
-  leftPinching: 1
-  rightPinching: 0
+  appController: {fileID: 1512762635}
   active: 0
   canvasGroup: {fileID: 1973567283}
   cam: {fileID: 1641490520}
@@ -7785,16 +7795,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandPinchTranslation
   appController: {fileID: 1512762635}
-  pinchHand: {fileID: 124714528}
-  controlHand: {fileID: 1942463334}
   controlsStatus: {fileID: 958835236}
   pinching: 0
   wasPinchingLastFrame: 0
+  buttonPressedLastFrame: 0
   handStartPosition: {x: 0, y: 0, z: 0}
+  controllerStartPostion: {x: 0, y: 0, z: 0}
   objectStartPosition: {x: 0, y: 0, z: 0}
-  isHandConnected: 0
   thumbPinching: 0
   middlePinching: 0
+--- !u!114 &2065892235 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8801375152912920467, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
+  m_PrefabInstance: {fileID: 139142498}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae60cfa43388e449a7518f36418f81c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2098149944
 GameObject:
   m_ObjectHideFlags: 0
@@ -7911,7 +7931,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3310732860976223830, guid: 778f8a5d5fc06a9419fc1257d40409a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.913
+      value: -0.92
       objectReference: {fileID: 0}
     - target: {fileID: 3310732860976223830, guid: 778f8a5d5fc06a9419fc1257d40409a1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7919,7 +7939,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3310732860976223830, guid: 778f8a5d5fc06a9419fc1257d40409a1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.418
+      value: 0.185
       objectReference: {fileID: 0}
     - target: {fileID: 3310732860976223830, guid: 778f8a5d5fc06a9419fc1257d40409a1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8008,7 +8028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8435409614015284621, guid: 547d478b66ab93641bd1c5992908c642, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5304561
+      value: 0.535
       objectReference: {fileID: 0}
     - target: {fileID: 8435409614015284621, guid: 547d478b66ab93641bd1c5992908c642, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8016,7 +8036,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8435409614015284621, guid: 547d478b66ab93641bd1c5992908c642, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.5244695
+      value: -0.026
       objectReference: {fileID: 0}
     - target: {fileID: 8435409614015284621, guid: 547d478b66ab93641bd1c5992908c642, type: 3}
       propertyPath: m_LocalRotation.w
