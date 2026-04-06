@@ -1,6 +1,6 @@
 public enum EType
 {
-    BEZIER_CURVVE,
+    BEZIER_CURVE,
     BEZIER_SURFACE,
     BSPLINES_CURVE
 }
