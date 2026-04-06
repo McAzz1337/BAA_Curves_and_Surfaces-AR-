@@ -11,6 +11,7 @@ public class BSplinesCurve : MonoBehaviour
     private float[] knots;
     private Mesh mesh;
 
+
     void Awake()
     {
         MeshFilter mf = GetComponent<MeshFilter>();
@@ -32,6 +33,7 @@ public class BSplinesCurve : MonoBehaviour
         }
     }
 
+
     void Start()
     {
         generateKnots();
@@ -43,9 +45,9 @@ public class BSplinesCurve : MonoBehaviour
         List<Vector3> positions = controlPoints.getTransforms()
             .Select(t => transform.InverseTransformPoint(t.position)).ToList();
         if (positions.Count < degree + 1) return;
-        float tMax = (int)generateKnots();
         List<Vector3> points = new List<Vector3>();
         float tMin = 0;
+        float tMax = knots[knots.Length - degree - 1];
         for (int i = 0; i <= numSamples; i++)
         {
             float t = tMin + (float)i / numSamples * (tMax - tMin);
@@ -54,46 +56,39 @@ public class BSplinesCurve : MonoBehaviour
         generateMesh(points);
     }
 
-    int generateKnots()
+    void generateKnots()
     {
-        if (controlPoints == null) return 0;
-        int n = controlPoints.getTransforms().Length - 1;
-        if (n < degree) return 0;
-        int numKnots = n + degree + 1;
-        knots = new float[numKnots + 1];
-        // Clamped knot vector
-        int firstEnd = degree;
-        int lastStart = n + 1;
-        int numMiddle = lastStart - firstEnd - 1;
+        int count = controlPoints.getTransforms().Length;
+        int n = count - 1;
+        int p = degree;
 
-        // try
-        int indx = 0;
-        int val = 0;
-        for (int i = 0; i <= degree; i++)
-        {
-            knots[indx++] = val;
-        }
-        for (int i = 0; i < n - degree - 1; i++)
-        {
-            knots[indx++] = ++val;
-        }
-        ++val;
-        for (int i = 0; i <= degree; i++)
-        {
-            knots[indx++] = val;
-        }
+        int m = n + p + 1; // highest knot index
+        knots = new float[m + 1];
 
-        return val;
+        // clamped start
+        for (int i = 0; i <= p; i++)
+            knots[i] = 0;
+
+        // middle knots
+        for (int i = p + 1; i <= n; i++)
+            knots[i] = i - p;
+
+        // clamped end
+        for (int i = n + 1; i <= m; i++)
+            knots[i] = n - p + 1;
     }
 
     float basis(int i, int p, float t)
     {
         if (p == 0)
         {
-            if (t >= knots[i] && t < knots[i + 1]) return 1;
-            // Special case: at the very end of the domain, include the last point
-            if (i == knots.Length - 2 && t == knots[i + 1]) return 1;
-            return 0;
+            if (knots[i] <= t && t < knots[i + 1])
+                return 1f;
+
+            if (t == knots[knots.Length - 1] && i == knots.Length - degree - 2)
+                return 1f;
+
+            return 0f;
         }
         float left = 0;
         if (knots[i + p] != knots[i])
@@ -209,4 +204,6 @@ public class BSplinesCurve : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
     }
+
+
 }
