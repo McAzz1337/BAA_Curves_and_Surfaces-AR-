@@ -6400,9 +6400,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd50b722592bcb043abd780a84f79c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Generator
-  berzierCurve: {fileID: 8205513532652942324, guid: 778f8a5d5fc06a9419fc1257d40409a1, type: 3}
-  berzierSurface: {fileID: 4037262404216758646, guid: d114dc47638360147830d9bf6517e61d, type: 3}
-  bSplinesCurve: {fileID: 8117288384768972651, guid: 547d478b66ab93641bd1c5992908c642, type: 3}
+  berzierCurvePrefab: {fileID: 8205513532652942324, guid: 778f8a5d5fc06a9419fc1257d40409a1, type: 3}
+  berzierSurfacePrefab: {fileID: 4037262404216758646, guid: d114dc47638360147830d9bf6517e61d, type: 3}
+  bSplinesCurvePrefab: {fileID: 8117288384768972651, guid: 547d478b66ab93641bd1c5992908c642, type: 3}
   controlPointPrefab: {fileID: 3303262940325076415, guid: ac116a47a631a0548a22d44e12adbd40, type: 3}
 --- !u!114 &1529253607
 MonoBehaviour:
