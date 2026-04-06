@@ -17,12 +17,21 @@ public class Generator : MonoBehaviour
     [SerializeField]
     private GameObject controlPointPrefab;
 
+    private ApplicationController appController;
+
+
+    void Start()
+    {
+        appController = GetComponent<ApplicationController>();
+        Debug.Log("ApplicationController: " + appController == null ? "Null" : "Not Null");
+    }
 
     public GameObject generate(EType type, int nodes, Camera cam)
     {
+        Debug.Log("Generating " + type + " with " + nodes + " nodes.");
         switch (type)
         {
-            case EType.BEZIER_CURVVE:
+            case EType.BEZIER_CURVE:
                 return generateCurvePoints(nodes, cam);
             case EType.BEZIER_SURFACE:
                 return generateBezierSurfacePoints(nodes, cam);
@@ -78,30 +87,42 @@ public class Generator : MonoBehaviour
 
     private GameObject generateCurvePoints(int nodes, Camera cam)
     {
+        Debug.Log("Generating Bezier Curve");
         Vector3 inFront = cam.transform.position + cam.transform.forward * 0.5f;
 
         GameObject bezierCurve = Instantiate(berzierCurve, inFront, Quaternion.identity);
         if (bezierCurve == null)
         {
-            Debug.LogError("Failed to instantiate bezier curve.");
+            Debug.Log("Failed to instantiate bezier curve.");
             return null;
         }
 
         ControlPoints controlPointsParent = bezierCurve.GetComponentInChildren<ControlPoints>();
         if (controlPointsParent == null)
         {
-            Debug.LogError("ControlPoints component not found on bezier curve.");
+            Debug.Log("ControlPoints component not found on bezier curve.");
             return null;
         }
 
-        List<Vector3> controlPoints = calculateCurveControlPoints(nodes, cam);
-        foreach (Vector3 position in controlPoints)
+        controlPointsParent.log = true;
+        List<Vector3> controlPointPositions = calculateCurveControlPoints(nodes, cam);
+        List<GameObject> controlPointsList = appController.ControlsPointPool.requestControlPoints(nodes);
+        Debug.Log("Controlpointslist: " + controlPointPositions.Count);
+        Debug.Log("Nodes: " + nodes);
+
+        for (int i = 0; i < nodes; i++)
         {
-            GameObject cp = Instantiate(controlPointPrefab, position, Quaternion.identity);
-            cp.transform.SetParent(controlPointsParent.transform);
+            GameObject controlPoint = controlPointsList[i];
+            controlPoint.transform.position = controlPointPositions[i];
+            controlPoint.SetActive(true);
+            controlPoint.transform.SetParent(controlPointsParent.transform);
         }
 
+
+
+        controlPointsParent.ControlPointPool = appController.ControlsPointPool;
         controlPointsParent.gatherControlPoints();
+        controlPointsParent.log = true;
         return bezierCurve;
     }
 
@@ -123,13 +144,17 @@ public class Generator : MonoBehaviour
             return null;
         }
 
-        List<Vector3> controlPoints = calculateSurfaceControlPoints(nodes, cam);
-        foreach (Vector3 position in controlPoints)
+        List<Vector3> controlPointPositions = calculateSurfaceControlPoints(nodes, cam);
+        List<GameObject> controlPointsList = appController.ControlsPointPool.requestControlPoints(nodes * nodes);
+        for (int i = 0; i < nodes * nodes; i++)
         {
-            GameObject cp = Instantiate(controlPointPrefab, position, Quaternion.identity);
-            cp.transform.SetParent(controlPointsParent.transform);
+            GameObject controlPoint = controlPointsList[i];
+            controlPoint.transform.position = controlPointPositions[i];
+            controlPoint.SetActive(true);
+            controlPoint.transform.SetParent(controlPointsParent.transform);
         }
 
+        controlPointsParent.ControlPointPool = appController.ControlsPointPool;
         controlPointsParent.gatherControlPoints();
         return bezierSurface;
     }
