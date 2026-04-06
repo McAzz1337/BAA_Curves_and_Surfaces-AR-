@@ -7,12 +7,12 @@ public class Generator : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject berzierCurve;
+    private GameObject berzierCurvePrefab;
 
     [SerializeField]
-    private GameObject berzierSurface;
+    private GameObject berzierSurfacePrefab;
     [SerializeField]
-    private GameObject bSplinesCurve;
+    private GameObject bSplinesCurvePrefab;
 
     [SerializeField]
     private GameObject controlPointPrefab;
@@ -32,11 +32,11 @@ public class Generator : MonoBehaviour
         switch (type)
         {
             case EType.BEZIER_CURVE:
-                return generateCurvePoints(nodes, cam);
+                return generateBezierCurvePoints(nodes, cam);
             case EType.BEZIER_SURFACE:
                 return generateBezierSurfacePoints(nodes, cam);
             case EType.BSPLINES_CURVE:
-                return null;
+                return generateBSplinesCurvePoints(nodes, cam);
             default:
                 Debug.Log("Invalid type: " + type);
                 return null;
@@ -85,12 +85,12 @@ public class Generator : MonoBehaviour
         return positions;
     }
 
-    private GameObject generateCurvePoints(int nodes, Camera cam)
+    private GameObject generateBezierCurvePoints(int nodes, Camera cam)
     {
         Debug.Log("Generating Bezier Curve");
         Vector3 inFront = cam.transform.position + cam.transform.forward * 0.5f;
 
-        GameObject bezierCurve = Instantiate(berzierCurve, inFront, Quaternion.identity);
+        GameObject bezierCurve = Instantiate(berzierCurvePrefab, inFront, Quaternion.identity);
         if (bezierCurve == null)
         {
             Debug.Log("Failed to instantiate bezier curve.");
@@ -130,7 +130,7 @@ public class Generator : MonoBehaviour
     {
         Vector3 inFront = cam.transform.position + cam.transform.forward * 0.5f;
 
-        GameObject bezierSurface = Instantiate(berzierSurface, inFront, Quaternion.identity);
+        GameObject bezierSurface = Instantiate(berzierSurfacePrefab, inFront, Quaternion.identity);
         if (bezierSurface == null)
         {
             Debug.LogError("Failed to instantiate bezier surface.");
@@ -157,6 +157,41 @@ public class Generator : MonoBehaviour
         controlPointsParent.ControlPointPool = appController.ControlsPointPool;
         controlPointsParent.gatherControlPoints();
         return bezierSurface;
+    }
+
+
+    private GameObject generateBSplinesCurvePoints(int nodes, Camera cam)
+    {
+
+        Vector3 inFront = cam.transform.position + cam.transform.forward * 0.5f;
+
+        GameObject bSplinesCurve = Instantiate(bSplinesCurvePrefab, inFront, Quaternion.identity);
+        if (bSplinesCurve == null)
+        {
+            Debug.LogError("Failed to instantiate b splines curve.");
+            return null;
+        }
+
+        ControlPoints controlPointsParent = bSplinesCurve.GetComponentInChildren<ControlPoints>();
+        if (controlPointsParent == null)
+        {
+            Debug.LogError("ControlPoints component not found on bezier surface.");
+            return null;
+        }
+
+        List<Vector3> controlPointPositions = calculateCurveControlPoints(nodes, cam);
+        List<GameObject> controlPointsList = appController.ControlsPointPool.requestControlPoints(nodes);
+        for (int i = 0; i < nodes; i++)
+        {
+            GameObject controlPoint = controlPointsList[i];
+            controlPoint.transform.position = controlPointPositions[i];
+            controlPoint.SetActive(true);
+            controlPoint.transform.SetParent(controlPointsParent.transform);
+        }
+
+        controlPointsParent.ControlPointPool = appController.ControlsPointPool;
+        controlPointsParent.gatherControlPoints();
+        return bSplinesCurve;
     }
 
 }
