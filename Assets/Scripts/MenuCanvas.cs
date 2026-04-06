@@ -83,11 +83,21 @@ public class MenuCanvas : MonoBehaviour
         toggleCanvas(active);
     }
 
+    private void tuckAway()
+    {
+        Transform t = cam.transform;
+        transform.position = t.position - t.forward * 100.0f - t.up * 100.0f;
+    }
+
     private void toggleCanvas(bool show)
     {
         canvasGroup.alpha = show ? 1 : 0;
         canvasGroup.interactable = show;
         canvasGroup.blocksRaycasts = show;
+        if (!show)
+        {
+            tuckAway();
+        }
     }
 
     private void positioncanvas()
