@@ -11,6 +11,7 @@ public class Bezier : MonoBehaviour
 
     }
 
+
     public static Vector3 deCasteljau(List<Vector3> controlPoints, float t)
     {
         List<Vector3> newControlPoints = new List<Vector3>(controlPoints);
@@ -29,6 +30,9 @@ public class Bezier : MonoBehaviour
 
         return controlPoints[0];
     }
+
+
+
 
     public static List<Vector3> curve(List<Vector3> controlPoints, int samples)
     {
