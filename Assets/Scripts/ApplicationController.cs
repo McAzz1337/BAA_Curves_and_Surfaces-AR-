@@ -48,6 +48,13 @@ public class ApplicationController : MonoBehaviour
         get { return rotationController; }
     }
 
+    [SerializeField]
+    private ControlPointsPool controlPointPool;
+    public ControlPointsPool ControlsPointPool
+    {
+        get { return controlPointPool; }
+    }
+
     void Start()
     {
 
