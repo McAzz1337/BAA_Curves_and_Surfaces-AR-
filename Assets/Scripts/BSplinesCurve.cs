@@ -34,50 +34,50 @@ public class BSplinesCurve : MonoBehaviour
     }
 
 
-    void Start()
-    {
-        generateKnots();
-    }
 
     void Update()
     {
         if (controlPoints == null) return;
+
         List<Vector3> positions = controlPoints.getTransforms()
             .Select(t => transform.InverseTransformPoint(t.position)).ToList();
-        if (positions.Count < degree + 1) return;
+
+        int effectiveDegree = Mathf.Min(degree, positions.Count - 1);
+        if (effectiveDegree < 1) return;
+
+        generateKnots(effectiveDegree);
+
         List<Vector3> points = new List<Vector3>();
-        float tMin = 0;
-        float tMax = knots[knots.Length - degree - 1];
+        float tMin = knots[effectiveDegree];
+        float tMax = knots[knots.Length - effectiveDegree - 1];
+
         for (int i = 0; i <= numSamples; i++)
         {
             float t = tMin + (float)i / numSamples * (tMax - tMin);
-            points.Add(evaluate(t, positions));
+            points.Add(evaluate(t, positions, effectiveDegree));
         }
+
         generateMesh(points);
     }
 
-    void generateKnots()
+    void generateKnots(int degree)
     {
         int count = controlPoints.getTransforms().Length;
         int n = count - 1;
         int p = degree;
 
-        int m = n + p + 1; // highest knot index
+        int m = n + p + 1;
         knots = new float[m + 1];
 
-        // clamped start
         for (int i = 0; i <= p; i++)
             knots[i] = 0;
 
-        // middle knots
         for (int i = p + 1; i <= n; i++)
             knots[i] = i - p;
 
-        // clamped end
         for (int i = n + 1; i <= m; i++)
             knots[i] = n - p + 1;
     }
-
     float basis(int i, int p, float t)
     {
         if (p == 0)
@@ -99,7 +99,7 @@ public class BSplinesCurve : MonoBehaviour
         return left * basis(i, p - 1, t) + right * basis(i + 1, p - 1, t);
     }
 
-    public Vector3 evaluate(float t, List<Vector3> positions)
+    public Vector3 evaluate(float t, List<Vector3> positions, int degree)
     {
         if (positions.Count < degree + 1 || knots == null) return Vector3.zero;
         Vector3 result = Vector3.zero;
