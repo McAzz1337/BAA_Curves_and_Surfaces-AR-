@@ -12,6 +12,7 @@ public class BezierCurveMesh : MonoBehaviour
 
     private Mesh mesh;
 
+
     void Awake()
     {
         MeshFilter mf = GetComponent<MeshFilter>();
@@ -41,10 +42,7 @@ public class BezierCurveMesh : MonoBehaviour
 
         List<Vector3> positions = controlPoints.getTransforms()
             .Select(t => transform.InverseTransformPoint(t.transform.position)).ToList();
-        /*
-        List<Vector3> positions = controlPoints.getTransforms()
-                    .Select(t => t.position).ToList();
-*/
+
         List<Vector3> points = Bezier.curve(positions, numSamples);
         generateMesh(points);
     }
@@ -182,6 +180,7 @@ public class BezierCurveMesh : MonoBehaviour
 
         return circlePoints;
     }
+
 
 
 }
