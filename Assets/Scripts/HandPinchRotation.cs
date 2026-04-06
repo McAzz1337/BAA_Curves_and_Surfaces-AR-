@@ -1,6 +1,7 @@
 using UnityEngine;
 using Meta.XR.ImmersiveDebugger;
 using Oculus.Interaction.Input;
+using Oculus.Interaction;
 
 public class HandPinchRotation : MonoBehaviour
 {
@@ -174,20 +175,21 @@ public class HandPinchRotation : MonoBehaviour
 
     private Vector3 getFingerAxis()
     {
-        if (appController.TranslationActivationHand.GetJointPose(HandJointId.HandIndex1, out Pose i1) &&
-            appController.TranslationActivationHand.GetJointPose(HandJointId.HandIndexTip, out Pose iTip))
+        if (appController.TranslationActivationHand.GetJointPose(HandJointId.HandWristRoot, out Pose wrist))
         {
-            Vector3 axis = (iTip.position - i1.position).normalized;
-            if (axis != Vector3.zero) return axis;
-        }
+            if (appController.TranslationActivationHand.GetJointPose(HandJointId.HandIndexTip, out Pose iTip))
+            {
+                Vector3 axis = (iTip.position - wrist.position).normalized;
+                if (axis != Vector3.zero) return axis;
+            }
 
-        if (appController.TranslationActivationHand.GetJointPose(HandJointId.HandMiddle1, out Pose m1) &&
-            appController.TranslationActivationHand.GetJointPose(HandJointId.HandMiddleTip, out Pose mTip))
-        {
-            Vector3 axis = (mTip.position - m1.position).normalized;
-            if (axis != Vector3.zero) return axis;
-        }
+            if (appController.TranslationActivationHand.GetJointPose(HandJointId.HandMiddleTip, out Pose mTip))
+            {
+                Vector3 axis = (mTip.position - wrist.position).normalized;
+                if (axis != Vector3.zero) return axis;
+            }
 
+        }
         return appController.TranslationActivationHand.transform.forward;
     }
 
