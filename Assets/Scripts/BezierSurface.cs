@@ -20,6 +20,7 @@ public class BezierSurface : MonoBehaviour
     private int[] triangles;
     private Vector2[] uvs;
 
+
     void Awake()
     {
         InitializeMesh();
@@ -44,6 +45,8 @@ public class BezierSurface : MonoBehaviour
             mr.sharedMaterial = new Material(Shader.Find("Standard")) { color = Color.red };
         }
     }
+
+
 
     void Update()
     {
@@ -210,4 +213,6 @@ public class BezierSurface : MonoBehaviour
 
         return result;
     }
+
+
 }
