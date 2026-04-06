@@ -4,15 +4,21 @@ using UnityEngine;
 public class ControlPoints : MonoBehaviour
 {
     private Transform[] transforms;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField]
+    private ControlPointsPool controlPointPool;
+    public ControlPointsPool ControlPointPool
+    {
+        set { controlPointPool = value; }
+    }
 
+    public bool log = false;
     void Awake()
     {
-        gatherControlPoints();
+
     }
     void Start()
     {
-
+        gatherControlPoints();
     }
 
     // Update is called once per frame
@@ -23,16 +29,39 @@ public class ControlPoints : MonoBehaviour
 
     public Transform[] getTransforms()
     {
+        if (log)
+        {
+            Debug.Log("Getting points: " + transforms.Length);
+            log = false;
+        }
         return transforms;
+    }
+
+    public void addControlPoint(Transform transform)
+    {
+        Debug.Log("ControlPoint added: " + transforms.Length);
     }
 
     public void gatherControlPoints()
     {
-        transforms = new Transform[transform.childCount];
-        Debug.Log("Gathering control points. Number of children: " + transform.childCount);
-        for (int i = 0; i < transform.childCount; i++)
+        int count = transform.childCount;
+        Debug.Log("Gather: " + count);
+        transforms = new Transform[count];
+        for (int i = 0; i < count; i++)
         {
             transforms[i] = transform.GetChild(i);
+        }
+    }
+
+
+    void OnDestroy()
+    {
+        if (controlPointPool != null)
+        {
+            foreach (var cp in transforms)
+            {
+                controlPointPool.insertControlPoint(cp.gameObject);
+            }
         }
     }
 
