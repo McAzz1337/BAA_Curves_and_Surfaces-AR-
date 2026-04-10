@@ -1,6 +1,7 @@
 using UnityEngine;
 using Meta.XR.ImmersiveDebugger;
 using Oculus.Interaction.Input;
+using System.Collections.Generic;
 
 public class HandPinchTranslation : MonoBehaviour
 {
@@ -31,14 +32,14 @@ public class HandPinchTranslation : MonoBehaviour
     [DebugMember]
     public bool middlePinching;
 
-    private float multiplier = 1.0f;
+    private float sensitivity = 1.0f;
 
-    public float Multiplier
+    public float Sensitivity
     {
-        get => multiplier;
+        get => sensitivity;
         set
         {
-            multiplier = value;
+            sensitivity = value;
         }
     }
 
@@ -48,29 +49,43 @@ public class HandPinchTranslation : MonoBehaviour
 
     }
 
+    public void onPose()
+    {
+        Debug.Log("Scissor pose detected");
+        pinching = true;
+    }
+
+    public void onUnposed()
+    {
+        Debug.Log("Scissor unpose detected");
+        pinching = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (appController.TranslationActivationHand.IsConnected)
         {
+            bool validOrientation = HandUtils.writstNormalDotCamForwardGreaterTan(appController.TranslationActivationHand,
+                 appController.Cam,
+                  -0.3f);
 
-            pinching = detectPinch();
+            //pinching = validOrientation && HandUtils.detectPinch(appController.TranslationActivationHand,
+            //new List<HandFinger> { HandFinger.Thumb, HandFinger.Middle });
+
+            //pinching = HandUtils.detectTopGesture(appController.TranslationActivationHand);
+
             bool transition = false;
 
-            if (pinching)
+            if (pinching && !wasPinchingLastFrame)
             {
-                if (!wasPinchingLastFrame)
-                {
-                    transition = true;
-                    controlsStatus.TranslationActive = !controlsStatus.TranslationActive;
-                    Debug.Log("Transition");
-                }
+                transition = true;
+                controlsStatus.TranslationActive = !controlsStatus.TranslationActive;
             }
 
             if (transition && controlsStatus.TranslationActive)
             {
-                Debug.Log("Set start position");
-                handStartPosition = getHandRootPosition();
+                handStartPosition = HandUtils.getHandRootPosition(appController.TranslationActivationHand);
                 objectStartPosition = appController.OBJ.transform.position;
             }
 
@@ -109,21 +124,21 @@ public class HandPinchTranslation : MonoBehaviour
 
     private void updateObjectByHand()
     {
-        Vector3 delta = getHandRootPosition() - handStartPosition;
-        appController.OBJ.transform.position = objectStartPosition + multiplier * delta;
+        Vector3 delta = HandUtils.getHandRootPosition(appController.TranslationActivationHand) - handStartPosition;
+        appController.OBJ.transform.position = objectStartPosition + sensitivity * delta;
     }
 
     private void updateObjectByController()
     {
         Vector3 delta = getControllerPosition() - controllerStartPostion;
-        appController.OBJ.transform.position = objectStartPosition + multiplier * delta;
+        appController.OBJ.transform.position = objectStartPosition + sensitivity * delta;
     }
 
     public void resetStartPosition()
     {
         if (appController.TranslationActivationHand.IsConnected)
         {
-            handStartPosition = getHandRootPosition();
+            handStartPosition = HandUtils.getHandRootPosition(appController.TranslationActivationHand);
             objectStartPosition = appController.OBJ.transform.position;
         }
         else if (appController.TranslationController.IsConnected)
@@ -134,15 +149,6 @@ public class HandPinchTranslation : MonoBehaviour
 
     }
 
-    private Vector3 getHandRootPosition()
-    {
-        if (appController.RotationActivationHand.GetJointPose(HandJointId.HandWristRoot, out Pose pose))
-        {
-            return pose.position;
-        }
-
-        return appController.RotationActivationHand.transform.position;
-    }
 
     private Vector3 getControllerPosition()
     {
@@ -154,16 +160,4 @@ public class HandPinchTranslation : MonoBehaviour
         return Vector3.zero;
     }
 
-    private bool detectPinch()
-    {
-        thumbPinching = appController.TranslationActivationHand.GetFingerIsPinching(HandFinger.Thumb);
-        middlePinching = appController.TranslationActivationHand.GetFingerIsPinching(HandFinger.Middle);
-
-        bool indexPinching = appController.TranslationActivationHand.GetFingerIsPinching(HandFinger.Index);
-        bool ringPinching = appController.TranslationActivationHand.GetFingerIsPinching(HandFinger.Ring);
-        bool pinkyPinching = appController.TranslationActivationHand.GetFingerIsPinching(HandFinger.Pinky);
-
-        return (thumbPinching && middlePinching) &&
-            !(indexPinching || ringPinching || pinkyPinching);
-    }
 }

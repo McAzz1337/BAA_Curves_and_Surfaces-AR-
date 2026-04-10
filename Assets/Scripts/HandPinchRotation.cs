@@ -2,6 +2,7 @@ using UnityEngine;
 using Meta.XR.ImmersiveDebugger;
 using Oculus.Interaction.Input;
 using Oculus.Interaction;
+using System.Collections.Generic;
 
 public class HandPinchRotation : MonoBehaviour
 {
@@ -45,6 +46,17 @@ public class HandPinchRotation : MonoBehaviour
     {
 
     }
+    public void onPose()
+    {
+        Debug.Log("Scissor pose detected left");
+        pinching = true;
+    }
+
+    public void onUnposed()
+    {
+        Debug.Log("Scissor unpose detected left");
+        pinching = false;
+    }
 
     // Update is called once per frame
     void Update()
@@ -52,7 +64,15 @@ public class HandPinchRotation : MonoBehaviour
 
         if (appController.RotationActivationHand.IsConnected)
         {
-            pinching = detectPinch();
+            bool validOrientation =
+            HandUtils.writstNormalDotCamForwardGreaterTan(appController.RotationActivationHand,
+                 appController.Cam,
+                  -0.3f);
+
+            //pinching = validOrientation && HandUtils.detectPinch(appController.RotationActivationHand,
+            //new List<HandFinger> { HandFinger.Thumb, HandFinger.Middle });
+
+
             bool transition = false;
             if (pinching && !wasPinchingLastFrame)
             {
@@ -62,9 +82,8 @@ public class HandPinchRotation : MonoBehaviour
 
             if (transition && controlsStatus.RotationActive)
             {
-                Debug.Log("Set start rotation");
-                wristStartRotation = getWristRotation();
-                rotationAxis = getFingerAxis();
+                wristStartRotation = HandUtils.getWristRotation(appController.RotationActivationHand);
+                rotationAxis = HandUtils.getFingerAxis(appController.RotationActivationHand, HandJointId.HandIndexTip);
                 objStartRotation = appController.OBJ.transform.rotation;
             }
 
@@ -105,10 +124,10 @@ public class HandPinchRotation : MonoBehaviour
 
     private void updateObjectByHand()
     {
-        Quaternion currentWrist = getWristRotation();
+        Quaternion currentWrist = HandUtils.getWristRotation(appController.RotationActivationHand);
         Quaternion delta = currentWrist * Quaternion.Inverse(wristStartRotation);
 
-        Quaternion twist = getTwist(delta, rotationAxis);
+        Quaternion twist = HandUtils.getTwist(delta, rotationAxis);
         float angle = 2f * Mathf.Acos(Mathf.Clamp(twist.w, -1f, 1f)) * Mathf.Rad2Deg;
         if (Vector3.Dot(new Vector3(twist.x, twist.y, twist.z), rotationAxis) < 0f)
         {
@@ -122,75 +141,13 @@ public class HandPinchRotation : MonoBehaviour
     {
         Quaternion currentRot = getControllerRotation();
         Quaternion delta = currentRot * Quaternion.Inverse(controllerStartRotation);
-        Quaternion twist = getTwist(delta, rotationAxis);
+        Quaternion twist = HandUtils.getTwist(delta, rotationAxis);
 
         float angle = 2f * Mathf.Acos(Mathf.Clamp(twist.w, -1f, 1f)) * Mathf.Rad2Deg;
         if (Vector3.Dot(new Vector3(twist.x, twist.y, twist.z), rotationAxis) < 0f)
             angle = -angle;
 
         appController.OBJ.transform.rotation = objStartRotation * Quaternion.AngleAxis(angle, rotationAxis);
-    }
-
-    private Vector3 getWristNormal()
-    {
-
-        if (!appController.TranslationActivationHand.GetJointPose(HandJointId.HandWristRoot, out Pose wristPose) ||
-            !appController.TranslationActivationHand.GetJointPose(HandJointId.HandIndex1, out Pose indexPose) ||
-            !appController.TranslationActivationHand.GetJointPose(HandJointId.HandPinky0, out Pose pinkyPose))
-        {
-            return appController.TranslationActivationHand.transform.forward;
-        }
-
-        Vector3 wristPos = wristPose.position;
-        Vector3 toIndex = indexPose.position - wristPos;
-        Vector3 toPinky = pinkyPose.position - wristPos;
-
-        Vector3 normal = Vector3.Cross(toIndex, toPinky).normalized;
-        if (appController.TranslationActivationHand.Handedness == Handedness.Left)
-        {
-            normal = Vector3.Cross(toIndex, toPinky).normalized;
-        }
-        else
-        {
-            normal = Vector3.Cross(toPinky, toIndex).normalized;
-        }
-
-        if (normal == Vector3.zero)
-        {
-            return appController.TranslationActivationHand.transform.forward;
-        }
-
-        return normal;
-    }
-
-    private Quaternion getWristRotation()
-    {
-        if (appController.TranslationActivationHand.GetJointPose(HandJointId.HandWristRoot, out Pose wristPose))
-        {
-            return wristPose.rotation;
-        }
-
-        return appController.TranslationActivationHand.transform.rotation;
-    }
-
-    private Vector3 getFingerAxis()
-    {
-        if (appController.TranslationActivationHand.GetJointPose(HandJointId.HandWristRoot, out Pose wrist))
-        {
-            if (appController.TranslationActivationHand.GetJointPose(HandJointId.HandIndexTip, out Pose iTip))
-            {
-                Vector3 axis = (iTip.position - wrist.position).normalized;
-                if (axis != Vector3.zero) return axis;
-            }
-
-            if (appController.TranslationActivationHand.GetJointPose(HandJointId.HandMiddleTip, out Pose mTip))
-            {
-                Vector3 axis = (mTip.position - wrist.position).normalized;
-                if (axis != Vector3.zero) return axis;
-            }
-
-        }
-        return appController.TranslationActivationHand.transform.forward;
     }
 
     private Quaternion getControllerRotation()
@@ -217,16 +174,4 @@ public class HandPinchRotation : MonoBehaviour
         return twist.normalized;
     }
 
-    private bool detectPinch()
-    {
-        thumbPinching = appController.RotationActivationHand.GetFingerIsPinching(HandFinger.Thumb);
-        middlePinching = appController.RotationActivationHand.GetFingerIsPinching(HandFinger.Middle);
-
-        bool indexPinching = appController.RotationActivationHand.GetFingerIsPinching(HandFinger.Index);
-        bool ringPinching = appController.RotationActivationHand.GetFingerIsPinching(HandFinger.Ring);
-        bool pinkyPinching = appController.RotationActivationHand.GetFingerIsPinching(HandFinger.Pinky);
-
-        return (thumbPinching && middlePinching) &&
-            !(indexPinching || ringPinching || pinkyPinching);
-    }
 }
