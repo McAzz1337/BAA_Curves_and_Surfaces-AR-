@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27fb36e67471f2947b3d554bb54a1b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlPoints
+  controlPointPool: {fileID: 0}
+  log: 0
 --- !u!1 &8205513532652942324
 GameObject:
   m_ObjectHideFlags: 0
@@ -53,7 +55,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3310732860976223830}
-  - component: {fileID: 8312327330536514534}
   - component: {fileID: 3073849035146555278}
   - component: {fileID: 5000811715256853826}
   - component: {fileID: 1887643132119623610}
@@ -80,18 +81,6 @@ Transform:
   - {fileID: 7757296942323491934}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8312327330536514534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8205513532652942324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad2fa2b5e83ce7a408f1d607f8ccc228, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Bezier
 --- !u!114 &3073849035146555278
 MonoBehaviour:
   m_ObjectHideFlags: 0
