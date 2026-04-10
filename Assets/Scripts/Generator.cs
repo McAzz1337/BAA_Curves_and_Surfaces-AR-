@@ -104,25 +104,15 @@ public class Generator : MonoBehaviour
             return null;
         }
 
-        controlPointsParent.log = true;
         List<Vector3> controlPointPositions = calculateCurveControlPoints(nodes, cam);
-        List<GameObject> controlPointsList = appController.ControlsPointPool.requestControlPoints(nodes);
-        Debug.Log("Controlpointslist: " + controlPointPositions.Count);
-        Debug.Log("Nodes: " + nodes);
 
         for (int i = 0; i < nodes; i++)
         {
-            GameObject controlPoint = controlPointsList[i];
-            controlPoint.transform.position = controlPointPositions[i];
-            controlPoint.SetActive(true);
+            GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
         }
 
-
-
-        controlPointsParent.ControlPointPool = appController.ControlsPointPool;
         controlPointsParent.gatherControlPoints();
-        controlPointsParent.log = true;
         return bezierCurve;
     }
 
@@ -145,16 +135,12 @@ public class Generator : MonoBehaviour
         }
 
         List<Vector3> controlPointPositions = calculateSurfaceControlPoints(nodes, cam);
-        List<GameObject> controlPointsList = appController.ControlsPointPool.requestControlPoints(nodes * nodes);
         for (int i = 0; i < nodes * nodes; i++)
         {
-            GameObject controlPoint = controlPointsList[i];
-            controlPoint.transform.position = controlPointPositions[i];
-            controlPoint.SetActive(true);
+            GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
         }
 
-        controlPointsParent.ControlPointPool = appController.ControlsPointPool;
         controlPointsParent.gatherControlPoints();
         return bezierSurface;
     }
@@ -180,16 +166,12 @@ public class Generator : MonoBehaviour
         }
 
         List<Vector3> controlPointPositions = calculateCurveControlPoints(nodes, cam);
-        List<GameObject> controlPointsList = appController.ControlsPointPool.requestControlPoints(nodes);
         for (int i = 0; i < nodes; i++)
         {
-            GameObject controlPoint = controlPointsList[i];
-            controlPoint.transform.position = controlPointPositions[i];
-            controlPoint.SetActive(true);
+            GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
         }
 
-        controlPointsParent.ControlPointPool = appController.ControlsPointPool;
         controlPointsParent.gatherControlPoints();
         return bSplinesCurve;
     }
