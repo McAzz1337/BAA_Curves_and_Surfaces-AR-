@@ -1,15 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bezier : MonoBehaviour
+public static class Bezier
 {
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
 
 
     public static Vector3 deCasteljau(List<Vector3> controlPoints, float t)
@@ -43,11 +37,5 @@ public class Bezier : MonoBehaviour
             points.Add(deCasteljau(controlPoints, t));
         }
         return points;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
