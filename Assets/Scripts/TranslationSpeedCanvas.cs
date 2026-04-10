@@ -12,10 +12,10 @@ public class TranslationSpeedCanvas : MonoBehaviour
     private CanvasGroup canvasGroup;
 
     [SerializeField]
-    private Camera cam;
+    private ApplicationController appController;
 
     [SerializeField]
-    private float offsetX = 0.3f;
+    private Vector3 offset = new Vector3(-0.15f, 0.15f, 0.5f);
 
     private bool active = false;
     [SerializeField]
@@ -36,6 +36,12 @@ public class TranslationSpeedCanvas : MonoBehaviour
         toggleCanvas(active);
     }
 
+    private void tuckAway()
+    {
+        Transform t = appController.Cam.transform;
+        transform.position = t.position - t.forward * 100.0f - t.up * 100.0f;
+    }
+
     public void toggleCanvas(bool show)
     {
         canvasGroup.alpha = show ? 1 : 0;
@@ -43,6 +49,11 @@ public class TranslationSpeedCanvas : MonoBehaviour
         canvasGroup.blocksRaycasts = show;
         translationSpeedSlider.value = 1.0f;
         updateSpeedDisplayText(translationSpeedSlider.value);
+        active = show;
+        if (!show)
+        {
+            tuckAway();
+        }
     }
 
     private void updateSpeedDisplayText(float value)
@@ -52,12 +63,15 @@ public class TranslationSpeedCanvas : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = cam.transform.position + new Vector3(0.0f, 0.0f, 0.5f);
+        if (active)
+        {
+            Camera cam = appController.Cam;
+            transform.position = cam.transform.position + offset;
 
-        Quaternion rot = Quaternion.LookRotation(
-            transform.position - cam.transform.position);
+            Quaternion rot = Quaternion.LookRotation(
+                transform.position - cam.transform.position);
 
-        transform.rotation = rot;
-        transform.position += new Vector3(offsetX, offsetX, 0.0f);
+            transform.rotation = rot;
+        }
     }
 }
