@@ -44,10 +44,8 @@ public class MenuStatus : MonoBehaviour
             generate(selectedType,
                  nodes,
                  appController.Cam);
-        if (obj != null)
-        {
-            appController.OBJ = obj;
-        }
+
+        appController.OBJ = obj;
 
         menuCanvas.hide();
     }
