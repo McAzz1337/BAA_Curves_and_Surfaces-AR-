@@ -30,7 +30,7 @@ public class ControlsStatus : MonoBehaviour
         {
             translationActive = value;
             translationSpeedCanvas.toggleCanvas(translationActive);
-            handPinchTranslation.Multiplier = translationSpeedSlider.value;
+            handPinchTranslation.Sensitivity = translationSpeedSlider.value;
             updateColor();
         }
     }
@@ -65,7 +65,7 @@ public class ControlsStatus : MonoBehaviour
 
     private void changeTranslationSpeed(float value)
     {
-        handPinchTranslation.Multiplier = value;
+        handPinchTranslation.Sensitivity = value;
         handPinchTranslation.resetStartPosition();
     }
 
