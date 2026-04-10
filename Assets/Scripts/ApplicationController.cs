@@ -1,11 +1,12 @@
 using UnityEngine;
 using Oculus.Interaction.Input;
+using System.Collections;
 
 
 public class ApplicationController : MonoBehaviour
 {
 
-    [SerializeField]
+
     private GameObject obj;
     public GameObject OBJ
     {
@@ -48,16 +49,18 @@ public class ApplicationController : MonoBehaviour
         get { return rotationController; }
     }
 
-    [SerializeField]
-    private ControlPointsPool controlPointPool;
-    public ControlPointsPool ControlsPointPool
-    {
-        get { return controlPointPool; }
-    }
 
     void Start()
     {
+        StartCoroutine(generateAtStartup(1f));
+    }
 
+    IEnumerator generateAtStartup(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Generator generator = GetComponent<Generator>();
+        OBJ = generator.generate(EType.BEZIER_CURVE, 5, cam);
     }
 
     // Update is called once per frame
