@@ -1,6 +1,7 @@
 using UnityEngine;
 using Oculus.Interaction.Input;
 using Meta.XR.ImmersiveDebugger;
+using Unity.VisualScripting;
 
 public class MenuCanvas : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class MenuCanvas : MonoBehaviour
 
     [DebugMember]
     public bool active = false;
+    private bool posed = false;
+    private bool posedLastFrame = false;
 
     private bool rotationWasPinchingLastFrame;
     private bool translationWasPinchingLastFrame;
@@ -26,6 +29,16 @@ public class MenuCanvas : MonoBehaviour
         hide();
     }
 
+    public void onPose()
+    {
+        posed = true;
+    }
+
+    public void onUnpose()
+    {
+        posed = false;
+    }
+
     void Update()
     {
         if (appController.RotationActivationHand && appController.TranslationActivationHand.IsConnected)
@@ -34,8 +47,9 @@ public class MenuCanvas : MonoBehaviour
             bool rotationHandPinching = detectPinch(appController.TranslationActivationHand);
             bool translationHandPinching = detectPinch(appController.RotationActivationHand);
 
-            if ((rotationHandPinching && !rotationWasPinchingLastFrame) ||
-             (translationHandPinching && !translationWasPinchingLastFrame))
+            //if ((rotationHandPinching && !rotationWasPinchingLastFrame) ||
+            //(translationHandPinching && !translationWasPinchingLastFrame))
+            if (posed && !posedLastFrame)
             {
                 active = !active;
                 toggleCanvas(active);
@@ -47,6 +61,7 @@ public class MenuCanvas : MonoBehaviour
 
             rotationWasPinchingLastFrame = rotationHandPinching;
             translationWasPinchingLastFrame = translationHandPinching;
+            posedLastFrame = posed;
         }
         else if (appController.RotationController.IsConnected && appController.TranslationController.IsConnected)
         {
