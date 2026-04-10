@@ -45,7 +45,7 @@ public class BSplinesCurve : MonoBehaviour
         int effectiveDegree = Mathf.Min(degree, positions.Count - 1);
         if (effectiveDegree < 1) return;
 
-        generateKnots(effectiveDegree);
+        knots = BSplines.generateKnots(effectiveDegree, controlPoints);
 
         List<Vector3> points = new List<Vector3>();
         float tMin = knots[effectiveDegree];
@@ -54,62 +54,12 @@ public class BSplinesCurve : MonoBehaviour
         for (int i = 0; i <= numSamples; i++)
         {
             float t = tMin + (float)i / numSamples * (tMax - tMin);
-            points.Add(evaluate(t, positions, effectiveDegree));
+            points.Add(BSplines.evaluate(t, positions, effectiveDegree, knots));
         }
 
         generateMesh(points);
     }
 
-    void generateKnots(int degree)
-    {
-        int count = controlPoints.getTransforms().Length;
-        int n = count - 1;
-        int p = degree;
-
-        int m = n + p + 1;
-        knots = new float[m + 1];
-
-        for (int i = 0; i <= p; i++)
-            knots[i] = 0;
-
-        for (int i = p + 1; i <= n; i++)
-            knots[i] = i - p;
-
-        for (int i = n + 1; i <= m; i++)
-            knots[i] = n - p + 1;
-    }
-    float basis(int i, int p, float t)
-    {
-        if (p == 0)
-        {
-            if (knots[i] <= t && t < knots[i + 1])
-                return 1f;
-
-            if (t == knots[knots.Length - 1] && i == knots.Length - degree - 2)
-                return 1f;
-
-            return 0f;
-        }
-        float left = 0;
-        if (knots[i + p] != knots[i])
-            left = (t - knots[i]) / (knots[i + p] - knots[i]);
-        float right = 0;
-        if (knots[i + p + 1] != knots[i + 1])
-            right = (knots[i + p + 1] - t) / (knots[i + p + 1] - knots[i + 1]);
-        return left * basis(i, p - 1, t) + right * basis(i + 1, p - 1, t);
-    }
-
-    public Vector3 evaluate(float t, List<Vector3> positions, int degree)
-    {
-        if (positions.Count < degree + 1 || knots == null) return Vector3.zero;
-        Vector3 result = Vector3.zero;
-        for (int i = 0; i < positions.Count; i++)
-        {
-            float b = basis(i, degree, t);
-            result += b * positions[i];
-        }
-        return result;
-    }
 
     private void generateMesh(List<Vector3> points)
     {
