@@ -59,6 +59,8 @@ public class BezierSurface : MonoBehaviour
         if (mesh == null)
             InitializeMesh();
 
+        // Debug.Log("ControlPoints: " + controlPointsProvider == null ? "Null" : "Not Null");
+
         setupControlPoints();
         if (controlPoints[0, 0] != null)
         {
