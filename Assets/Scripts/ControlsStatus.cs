@@ -16,7 +16,7 @@ public class ControlsStatus : MonoBehaviour
     [SerializeField]
     private Slider translationSpeedSlider;
     [SerializeField]
-    private HandPinchTranslation handPinchTranslation;
+    private HandTranslation handTranslation;
 
     private bool translationActive;
     private bool rotationActive;
@@ -30,7 +30,7 @@ public class ControlsStatus : MonoBehaviour
         {
             translationActive = value;
             translationSpeedCanvas.toggleCanvas(translationActive);
-            handPinchTranslation.Sensitivity = translationSpeedSlider.value;
+            handTranslation.Sensitivity = translationSpeedSlider.value;
             updateColor();
         }
     }
@@ -65,8 +65,8 @@ public class ControlsStatus : MonoBehaviour
 
     private void changeTranslationSpeed(float value)
     {
-        handPinchTranslation.Sensitivity = value;
-        handPinchTranslation.resetStartPosition();
+        handTranslation.Sensitivity = value;
+        handTranslation.resetStartPosition();
     }
 
     // Update is called once per frame

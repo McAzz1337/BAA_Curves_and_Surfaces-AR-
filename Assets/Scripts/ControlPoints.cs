@@ -29,4 +29,15 @@ public class ControlPoints : MonoBehaviour
             transforms[i] = transform.GetChild(i);
         }
     }
+
+    public void deleteControlPoints()
+    {
+        int count = transform.childCount;
+        for (int i = 0; i < count; i++)
+        {
+            GameObject g = transform.GetChild(i).gameObject;
+            Destroy(g);
+        }
+
+    }
 }

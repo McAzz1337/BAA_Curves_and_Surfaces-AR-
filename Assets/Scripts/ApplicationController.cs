@@ -21,33 +21,21 @@ public class ApplicationController : MonoBehaviour
     }
 
     [SerializeField]
-    private Hand translationActivationHand;
-    public Hand TranslationActivationHand
+    private Hand translationHand;
+    public Hand TranslationHand
     {
-        get { return translationActivationHand; }
+        get { return translationHand; }
     }
+
 
     [SerializeField]
-    private Controller translationController;
-    public Controller TranslationController
+    private Hand rotationHand;
+
+    public Hand RotationHand
     {
-        get { return translationController; }
+        get { return rotationHand; }
     }
 
-    [SerializeField]
-    private Hand rotationActivationHand;
-
-    public Hand RotationActivationHand
-    {
-        get { return rotationActivationHand; }
-    }
-
-    [SerializeField]
-    private Controller rotationController;
-    public Controller RotationController
-    {
-        get { return rotationController; }
-    }
 
 
     void Start()
@@ -81,8 +69,8 @@ public class ApplicationController : MonoBehaviour
 
     public void swapHandFunction()
     {
-        Hand temp = translationActivationHand;
-        translationActivationHand = rotationActivationHand;
-        rotationActivationHand = temp;
+        Hand temp = translationHand;
+        translationHand = rotationHand;
+        rotationHand = temp;
     }
 }

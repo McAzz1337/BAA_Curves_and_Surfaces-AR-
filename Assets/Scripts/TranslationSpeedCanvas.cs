@@ -6,7 +6,7 @@ public class TranslationSpeedCanvas : MonoBehaviour
 {
 
     [SerializeField]
-    private HandPinchTranslation handTranslation;
+    private HandTranslation handTranslation;
 
     [SerializeField]
     private CanvasGroup canvasGroup;

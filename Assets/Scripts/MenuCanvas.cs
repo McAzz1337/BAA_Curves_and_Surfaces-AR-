@@ -13,11 +13,6 @@ public class MenuCanvas : MonoBehaviour
     private bool posed = false;
     private bool posedLastFrame = false;
 
-    private bool rotationWasPinchingLastFrame;
-    private bool translationWasPinchingLastFrame;
-
-    private bool menuPressedLastFrame;
-
     public CanvasGroup canvasGroup;
 
     public Camera cam;
@@ -41,14 +36,9 @@ public class MenuCanvas : MonoBehaviour
 
     void Update()
     {
-        if (appController.RotationActivationHand && appController.TranslationActivationHand.IsConnected)
+        if (appController.RotationHand && appController.TranslationHand.IsConnected)
         {
 
-            bool rotationHandPinching = detectPinch(appController.TranslationActivationHand);
-            bool translationHandPinching = detectPinch(appController.RotationActivationHand);
-
-            //if ((rotationHandPinching && !rotationWasPinchingLastFrame) ||
-            //(translationHandPinching && !translationWasPinchingLastFrame))
             if (posed && !posedLastFrame)
             {
                 active = !active;
@@ -59,36 +49,7 @@ public class MenuCanvas : MonoBehaviour
                 }
             }
 
-            rotationWasPinchingLastFrame = rotationHandPinching;
-            translationWasPinchingLastFrame = translationHandPinching;
             posedLastFrame = posed;
-        }
-        else if (appController.RotationController.IsConnected && appController.TranslationController.IsConnected)
-        {
-            Controller controller;
-            if (appController.RotationActivationHand.Handedness == Handedness.Left)
-            {
-                controller = appController.RotationController;
-            }
-            else
-            {
-                controller = appController.TranslationController;
-            }
-
-            bool menuPressed = controller.ControllerInput.SecondaryButton;
-
-            if (menuPressed && !menuPressedLastFrame)
-
-            {
-                active = !active;
-                toggleCanvas(active);
-                if (active)
-                {
-                    positioncanvas();
-                }
-            }
-
-            menuPressedLastFrame = menuPressed;
         }
     }
 
@@ -126,11 +87,4 @@ public class MenuCanvas : MonoBehaviour
         transform.position += new Vector3(offsetX, 0.0f, 0.0f);
     }
 
-    private bool detectPinch(Hand hand)
-    {
-        bool thumbPinching = hand.GetFingerIsPinching(HandFinger.Thumb);
-        bool ringPinching = hand.GetFingerIsPinching(HandFinger.Ring);
-
-        return thumbPinching && ringPinching;
-    }
 }
