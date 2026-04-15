@@ -8,7 +8,10 @@ public static class Bezier
 
     public static Vector3 deCasteljau(List<Vector3> controlPoints, float t)
     {
+
         List<Vector3> newControlPoints = new List<Vector3>(controlPoints);
+        // Debug.Log("ControlPointsLenght Bezier.deCasteljau(): " + newControlPoints.Count);
+
         while (controlPoints.Count > 1)
         {
             newControlPoints.Clear();
