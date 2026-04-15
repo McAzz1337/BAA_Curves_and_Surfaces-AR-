@@ -111,4 +111,18 @@ public class ControlsStatus : MonoBehaviour
         }
     }
 
+    public void resetColor(GameObject obj)
+    {
+        ControlPoints controlPoints = obj.GetComponentInChildren<ControlPoints>();
+        foreach (var t in controlPoints.getTransforms())
+        {
+            Renderer r = t.GetComponent<Renderer>();
+            if (r != null && r.material != null)
+            {
+                r.material.color = colorProvider.blue.color;
+            }
+        }
+
+    }
+
 }
