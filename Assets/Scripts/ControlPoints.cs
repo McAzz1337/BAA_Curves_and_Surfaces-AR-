@@ -20,6 +20,8 @@ public class ControlPoints : MonoBehaviour
         return transforms;
     }
 
+
+
     public void gatherControlPoints()
     {
         int count = transform.childCount;
