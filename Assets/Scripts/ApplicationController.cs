@@ -11,7 +11,7 @@ public class ApplicationController : MonoBehaviour
     public GameObject OBJ
     {
         get { return obj; }
-        set => replaceObj(value);
+        set => selectObj(value);
     }
     [SerializeField]
     private Camera cam;
@@ -36,6 +36,12 @@ public class ApplicationController : MonoBehaviour
         get { return rotationHand; }
     }
 
+    [SerializeField]
+    private ColorProvider colorProvider;
+
+    [SerializeField]
+    private ControlsStatus controlsStatus;
+
 
 
     void Start()
@@ -51,18 +57,18 @@ public class ApplicationController : MonoBehaviour
         OBJ = generator.generate(EType.BEZIER_CURVE, 5, cam);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private void replaceObj(GameObject obj)
+    private void selectObj(GameObject obj)
     {
         if (this.obj != null)
         {
-            Destroy(this.obj);
+            Renderer renderer = this.obj.GetComponent<Renderer>();
+            renderer.material.color = colorProvider.blue.color;
+            controlsStatus.resetColor(this.obj);
+            controlsStatus.TranslationActive = false;
         }
+
+        Renderer r = obj.GetComponent<Renderer>();
+        r.material.color = colorProvider.white.color;
 
         this.obj = obj;
     }
