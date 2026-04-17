@@ -15,6 +15,9 @@ public class MenuCanvas : MonoBehaviour
 
     public CanvasGroup canvasGroup;
 
+    [SerializeField]
+    private DeleteCanvas deleteCanvas;
+
     public Camera cam;
     public float offsetX = 0.1f;
     public float offsetZ = 0.3f;
@@ -36,11 +39,12 @@ public class MenuCanvas : MonoBehaviour
 
     void Update()
     {
-        if (appController.RotationHand && appController.TranslationHand.IsConnected)
+        if (appController.RotationHand.IsConnected && appController.TranslationHand.IsConnected)
         {
 
             if (posed && !posedLastFrame)
             {
+                deleteCanvas.hide();
                 active = !active;
                 toggleCanvas(active);
                 if (active)
