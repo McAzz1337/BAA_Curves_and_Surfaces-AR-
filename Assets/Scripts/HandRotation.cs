@@ -60,7 +60,7 @@ public class HandRotation : MonoBehaviour
     void Update()
     {
 
-        if (appController.RotationHand.IsConnected)
+        if (appController.RotationHand.IsConnected && appController.OBJ != null)
         {
 
             bool transition = false;
@@ -73,7 +73,7 @@ public class HandRotation : MonoBehaviour
             if (transition && controlsStatus.RotationActive)
             {
                 wristStartRotation = HandUtils.getWristRotation(appController.RotationHand);
-                rotationAxis = HandUtils.getFingerAxis(appController.RotationHand, HandJointId.HandIndexTip);
+                rotationAxis = HandUtils.getFingerAxis(appController.RotationHand, HandJointId.HandThumb1, HandJointId.HandThumbTip);
                 objStartRotation = appController.OBJ.transform.rotation;
             }
 

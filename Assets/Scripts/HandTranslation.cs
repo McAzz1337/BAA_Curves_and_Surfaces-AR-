@@ -52,7 +52,7 @@ public class HandTranslation : MonoBehaviour
 
     void Update()
     {
-        if (appController.TranslationHand.IsConnected)
+        if (appController.TranslationHand.IsConnected && appController.OBJ != null)
         {
 
             bool transition = false;
