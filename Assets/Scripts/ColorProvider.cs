@@ -6,6 +6,9 @@ public class ColorProvider : MonoBehaviour
     public Material white;
 
     [SerializeField]
+    public Material orange;
+
+    [SerializeField]
     public Material red;
     [SerializeField]
     public Material green;
