@@ -36,15 +36,14 @@ public static class HandUtils
         return hand.transform.rotation;
     }
 
-    public static Vector3 getFingerAxis(Hand hand, HandJointId fingerId)
+    public static Vector3 getFingerAxis(Hand hand, HandJointId fingerKnuckleId, HandJointId fingerTipId)
     {
-        if (hand.GetJointPose(HandJointId.HandWristRoot, out Pose wrist))
+        if (hand.GetJointPose(fingerKnuckleId, out Pose fingerKnuckle))
         {
-            if (hand.GetJointPose(fingerId, out Pose finger))
+            if (hand.GetJointPose(fingerTipId, out Pose fingerTip))
             {
-                Vector3 axis = (finger.position - wrist.position).normalized;
+                Vector3 axis = (fingerTip.position - fingerKnuckle.position).normalized;
                 if (axis != Vector3.zero) return axis;
-
             }
         }
 
