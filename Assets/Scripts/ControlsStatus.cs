@@ -63,6 +63,13 @@ public class ControlsStatus : MonoBehaviour
         translationSpeedSlider.onValueChanged.AddListener(changeTranslationSpeed);
     }
 
+    public void deactivateAllCointrols()
+    {
+        TranslationActive = false;
+        RotationActive = false;
+        ScalingActive = false;
+    }
+
     private void changeTranslationSpeed(float value)
     {
         handTranslation.Sensitivity = value;
