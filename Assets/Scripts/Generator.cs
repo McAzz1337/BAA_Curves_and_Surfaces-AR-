@@ -10,9 +10,9 @@ public class Generator : MonoBehaviour
     private GameObject berzierStructPrefab;
 
     [SerializeField]
-    private GameObject berzierSurfacePrefab;
+    private GameObject berzierSurfacbeStructPrefab;
     [SerializeField]
-    private GameObject bSplinesCurvePrefab;
+    private GameObject bSplinesCurveStructPrefab;
 
     [SerializeField]
     private GameObject controlPointPrefab;
@@ -125,12 +125,21 @@ public class Generator : MonoBehaviour
     {
         Vector3 inFront = cam.transform.position + cam.transform.forward * 0.5f;
 
-        GameObject bezierSurface = Instantiate(berzierSurfacePrefab, inFront, Quaternion.identity);
-        if (bezierSurface == null)
+        GameObject bezierSurfaceStruct = Instantiate(berzierSurfacbeStructPrefab, inFront, Quaternion.identity);
+        if (bezierSurfaceStruct == null)
         {
             Debug.LogError("Failed to instantiate bezier surface.");
             return null;
         }
+
+        GameObject bezierSurface = bezierSurfaceStruct.GetComponentInChildren<BezierSurface>().gameObject;
+        if (bezierSurface == null)
+        {
+            Debug.LogError("Failed to get Component BezierSurface");
+            return null;
+        }
+        Vector3 center = inFront - (nodes + 1) / 2 * 0.25f * Vector3.up;
+        bezierSurface.transform.position = center;
 
         ControlPoints controlPointsParent = bezierSurface.GetComponentInChildren<ControlPoints>();
         if (controlPointsParent == null)
@@ -139,8 +148,7 @@ public class Generator : MonoBehaviour
             return null;
         }
 
-        Vector3 offset = inFront + new Vector3(0.0f, -1.5f, 0.0f);
-        List<Vector3> controlPointPositions = calculateSurfaceControlPoints(nodes, offset, cam.transform.right);
+        List<Vector3> controlPointPositions = calculateSurfaceControlPoints(nodes, center, cam.transform.right);
         for (int i = 0; i < nodes * nodes; i++)
         {
             GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
@@ -157,7 +165,9 @@ public class Generator : MonoBehaviour
 
         Vector3 inFront = cam.transform.position + cam.transform.forward * 0.5f;
 
-        GameObject bSplinesCurve = Instantiate(bSplinesCurvePrefab, inFront, Quaternion.identity);
+        GameObject bSplinesStruct = Instantiate(bSplinesCurveStructPrefab, inFront, Quaternion.identity);
+
+        GameObject bSplinesCurve = bSplinesStruct.GetComponentInChildren<BSplinesCurve>().gameObject;
         if (bSplinesCurve == null)
         {
             Debug.LogError("Failed to instantiate b splines curve.");
@@ -171,7 +181,7 @@ public class Generator : MonoBehaviour
             return null;
         }
 
-        Vector3 offset = inFront + new Vector3(0.0f, -1.5f, 0.0f);
+        Vector3 offset = bSplinesStruct.transform.position + new Vector3(0.0f, -0.25f, 0.0f);
         List<Vector3> controlPointPositions = calculateCurveControlPoints(nodes, offset, cam.transform.right);
         for (int i = 0; i < nodes; i++)
         {
