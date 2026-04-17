@@ -1,6 +1,7 @@
 using UnityEngine;
 using Oculus.Interaction;
 using Oculus.Interaction.HandGrab;
+using Unity.VisualScripting;
 
 public class GrabDetector : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class GrabDetector : MonoBehaviour
         handInteractable = GetComponentInChildren<HandGrabInteractable>();
         handInteractable.WhenStateChanged += onStateChanged;
 
+        Renderer r = gameObject.GetComponent<Renderer>();
+        ColorProvider colorProvider = FindFirstObjectByType<ColorProvider>();
+        r.material.color = colorProvider.orange.color;
     }
 
     private void onStateChanged(InteractableStateChangeArgs args)
