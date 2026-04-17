@@ -42,6 +42,11 @@ public class ApplicationController : MonoBehaviour
     [SerializeField]
     private ControlsStatus controlsStatus;
 
+    public ControlsStatus ControlsStatus
+    {
+        get { return controlsStatus; }
+    }
+
 
 
     void Start()
@@ -62,7 +67,7 @@ public class ApplicationController : MonoBehaviour
         if (this.obj != null)
         {
             Renderer renderer = this.obj.GetComponent<Renderer>();
-            renderer.material.color = colorProvider.blue.color;
+            renderer.material.color = colorProvider.orange.color;
             controlsStatus.resetColor(this.obj);
             controlsStatus.TranslationActive = false;
         }
@@ -71,6 +76,15 @@ public class ApplicationController : MonoBehaviour
         r.material.color = colorProvider.white.color;
 
         this.obj = obj;
+    }
+
+    public void deleteObject()
+    {
+        if (obj != null)
+        {
+            controlsStatus.deactivateAllCointrols();
+            Destroy(obj);
+        }
     }
 
     public void swapHandFunction()
