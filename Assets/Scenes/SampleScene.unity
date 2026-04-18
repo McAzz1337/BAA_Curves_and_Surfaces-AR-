@@ -3552,17 +3552,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f86b14a27b52f4f9298c33015b5c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.Grabbable
---- !u!114 &792743681 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8583721622288979178, guid: e5743c2e48945e149af1e6410d886c4c, type: 3}
-  m_PrefabInstance: {fileID: 736930151}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870d37507a21e5e42877dca0f61dcd28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &801020326
 GameObject:
   m_ObjectHideFlags: 0
@@ -5721,17 +5710,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!114 &1305493034 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8583721622288979178, guid: e5743c2e48945e149af1e6410d886c4c, type: 3}
-  m_PrefabInstance: {fileID: 1568374653}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870d37507a21e5e42877dca0f61dcd28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1334780319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6940,7 +6918,7 @@ PrefabInstance:
     - target: {fileID: 3005601684205340121, guid: ce9491a5df028fd4ca0a5130dbaa4fec, type: 3}
       propertyPath: _fingerFeatureStateProvider
       value: 
-      objectReference: {fileID: 1305493034}
+      objectReference: {fileID: 812947982}
     - target: {fileID: 3005601684205340122, guid: ce9491a5df028fd4ca0a5130dbaa4fec, type: 3}
       propertyPath: _logicOperator
       value: 1
@@ -9278,7 +9256,7 @@ PrefabInstance:
     - target: {fileID: 3005601684205340121, guid: ce9491a5df028fd4ca0a5130dbaa4fec, type: 3}
       propertyPath: _fingerFeatureStateProvider
       value: 
-      objectReference: {fileID: 792743681}
+      objectReference: {fileID: 147017265}
     - target: {fileID: 3005601684205340122, guid: ce9491a5df028fd4ca0a5130dbaa4fec, type: 3}
       propertyPath: _logicOperator
       value: 1
