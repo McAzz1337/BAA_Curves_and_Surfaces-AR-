@@ -73,7 +73,7 @@ public class HandRotation : MonoBehaviour
             if (transition && controlsStatus.RotationActive)
             {
                 wristStartRotation = HandUtils.getWristRotation(appController.RotationHand);
-                rotationAxis = HandUtils.getFingerAxis(appController.RotationHand, HandJointId.HandThumb1, HandJointId.HandThumbTip);
+                rotationAxis = HandUtils.getFingerAxis(appController.RotationHand, HandJointId.HandWristRoot, HandJointId.HandMiddle0);
                 objStartRotation = appController.OBJ.transform.rotation;
             }
 
