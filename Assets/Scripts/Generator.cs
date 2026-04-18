@@ -156,7 +156,7 @@ public class Generator : MonoBehaviour
         }
 
         controlPointsParent.gatherControlPoints();
-        return bezierSurface;
+        return bezierSurfaceStruct;
     }
 
 
@@ -190,7 +190,7 @@ public class Generator : MonoBehaviour
         }
 
         controlPointsParent.gatherControlPoints();
-        return bSplinesCurve;
+        return bSplinesStruct;
     }
 
 }
