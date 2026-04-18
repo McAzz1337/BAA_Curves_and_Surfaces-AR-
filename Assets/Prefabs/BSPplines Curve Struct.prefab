@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7319713905957891}
   - component: {fileID: 4437401856726802208}
   - component: {fileID: 2567029313483502395}
+  - component: {fileID: -8058060301348772236}
   m_Layer: 0
   m_Name: BSPplines Curve Struct
   m_TagString: Untagged
@@ -185,6 +186,19 @@ MonoBehaviour:
   _kinematicWhileSelected: 1
   _throwWhenUnselected: 1
   _forceKinematicDisabled: 0
+--- !u!114 &-8058060301348772236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334063622983847716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 371e4a1596527454392e84b0d050043c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrabDetector
+  appController: {fileID: 0}
 --- !u!1 &5599917750970532879
 GameObject:
   m_ObjectHideFlags: 0
