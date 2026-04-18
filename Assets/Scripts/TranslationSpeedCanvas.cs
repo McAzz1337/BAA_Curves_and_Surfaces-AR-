@@ -63,15 +63,19 @@ public class TranslationSpeedCanvas : MonoBehaviour
 
     void LateUpdate()
     {
-        if (active)
-        {
-            Camera cam = appController.Cam;
-            transform.position = cam.transform.position + offset;
+        if (!active) return;
 
-            Quaternion rot = Quaternion.LookRotation(
-                transform.position - cam.transform.position);
+        Camera cam = appController.Cam;
 
-            transform.rotation = rot;
-        }
+        Transform camTransform = cam.transform;
+
+
+        transform.position =
+            camTransform.position
+            + camTransform.forward * offset.z
+            + camTransform.right * offset.x
+            + camTransform.up * offset.y;
+
+        transform.rotation = camTransform.rotation;
     }
 }

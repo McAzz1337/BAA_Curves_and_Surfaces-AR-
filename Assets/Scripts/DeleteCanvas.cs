@@ -21,7 +21,7 @@ public class DeleteCanvas : MonoBehaviour
 
     private bool active = false;
     public float offsetX = 0.1f;
-    public float offsetZ = 0.3f;
+    public float offsetZ = 0.5f;
 
 
     [SerializeField]
@@ -75,7 +75,7 @@ public class DeleteCanvas : MonoBehaviour
                 toggleCanvas(active);
                 if (active)
                 {
-                    positionCanvas();
+                    //positionCanvas();
                 }
 
             }
@@ -104,6 +104,23 @@ public class DeleteCanvas : MonoBehaviour
         transform.rotation = rot;
         transform.position += new Vector3(offsetX, 0.0f, 0.0f);
 
+    }
+
+    void LateUpdate()
+    {
+        if (!active) return;
+
+        Camera cam = appController.Cam;
+
+        Transform camTransform = cam.transform;
+
+
+        transform.position =
+            camTransform.position
+            + camTransform.forward * offsetZ
+            + camTransform.right * offsetX;
+
+        transform.rotation = camTransform.rotation;
     }
 
 }
