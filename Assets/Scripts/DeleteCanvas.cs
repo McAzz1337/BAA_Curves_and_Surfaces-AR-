@@ -120,7 +120,10 @@ public class DeleteCanvas : MonoBehaviour
             + camTransform.forward * offsetZ
             + camTransform.right * offsetX;
 
-        transform.rotation = camTransform.rotation;
+        Vector3 forward = camTransform.forward;
+        Vector3 up = Vector3.up;
+
+        transform.rotation = Quaternion.LookRotation(forward, up);
     }
 
 }
