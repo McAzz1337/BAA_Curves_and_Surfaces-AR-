@@ -59,7 +59,7 @@ public class ApplicationController : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         Generator generator = GetComponent<Generator>();
-        OBJ = generator.generate(EType.BEZIER_CURVE, 5, cam);
+        selectObj(generator.generate(EType.BEZIER_CURVE, 5, cam));
     }
 
     private void selectObj(GameObject obj)
