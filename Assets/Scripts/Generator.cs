@@ -15,6 +15,9 @@ public class Generator : MonoBehaviour
     private GameObject bSplinesCurveStructPrefab;
 
     [SerializeField]
+    private GameObject bSplinesSurfaceStructPrefab;
+
+    [SerializeField]
     private GameObject controlPointPrefab;
 
     private ApplicationController appController;
@@ -37,6 +40,8 @@ public class Generator : MonoBehaviour
                 return generateBezierSurfacePoints(nodes, cam);
             case EType.BSPLINES_CURVE:
                 return generateBSplinesCurvePoints(nodes, cam);
+            case EType.BSPLINES_SURFACE:
+                return generateBSplinesSurfacePoints(nodes, cam);
             default:
                 Debug.Log("Invalid type: " + type);
                 return null;
@@ -193,4 +198,44 @@ public class Generator : MonoBehaviour
         return bSplinesStruct;
     }
 
+    private GameObject generateBSplinesSurfacePoints(int nodes, Camera cam)
+    {
+        Vector3 inFront = cam.transform.position + cam.transform.forward * 0.5f;
+
+        GameObject bSplinesSurfaceStruct = Instantiate(bSplinesSurfaceStructPrefab, inFront, Quaternion.identity);
+        if (bSplinesSurfaceStruct == null)
+        {
+            Debug.LogError("Failed to instantiate b splines surface.");
+            return null;
+        }
+
+        GameObject bSplinesSurface = bSplinesSurfaceStruct.GetComponentInChildren<BSplinesSurface>()?.gameObject;
+        if (bSplinesSurface == null)
+        {
+            Debug.LogError("Failed to get Component BSplinesSurface");
+            return null;
+        }
+
+        Vector3 center = inFront - (nodes + 1) / 2 * 0.25f * Vector3.up;
+        bSplinesSurface.transform.position = center;
+
+        ControlPoints controlPointsParent = bSplinesSurface.GetComponentInChildren<ControlPoints>();
+        if (controlPointsParent == null)
+        {
+            Debug.LogError("ControlPoints component not found on b splines surface.");
+            return null;
+        }
+
+        List<Vector3> controlPointPositions = calculateSurfaceControlPoints(nodes, center, cam.transform.right);
+
+        for (int i = 0; i < nodes * nodes; i++)
+        {
+            GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
+            controlPoint.transform.SetParent(controlPointsParent.transform);
+        }
+
+        controlPointsParent.gatherControlPoints();
+
+        return bSplinesSurfaceStruct;
+    }
 }
