@@ -80,17 +80,6 @@ public class MenuCanvas : MonoBehaviour
         }
     }
 
-    private void positioncanvas()
-    {
-        transform.position = cam.transform.position + new Vector3(0.0f, 0.0f, offsetZ);
-
-        Quaternion rot = Quaternion.LookRotation(
-            transform.position - cam.transform.position);
-
-        transform.rotation = rot;
-        transform.position += new Vector3(offsetX, 0.0f, 0.0f);
-    }
-
     void LateUpdate()
     {
         if (!active) return;

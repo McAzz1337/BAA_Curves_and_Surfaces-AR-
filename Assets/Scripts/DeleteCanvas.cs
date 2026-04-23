@@ -94,18 +94,6 @@ public class DeleteCanvas : MonoBehaviour
         }
     }
 
-    private void positionCanvas()
-    {
-        transform.position = appController.Cam.transform.position + new Vector3(0.0f, 0.0f, offsetZ);
-
-        Quaternion rot = Quaternion.LookRotation(
-            transform.position - appController.Cam.transform.position);
-
-        transform.rotation = rot;
-        transform.position += new Vector3(offsetX, 0.0f, 0.0f);
-
-    }
-
     void LateUpdate()
     {
         if (!active) return;
