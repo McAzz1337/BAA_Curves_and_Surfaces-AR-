@@ -1216,6 +1216,9 @@ MonoBehaviour:
     - m_Text: B-Spline Curve
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
+    - m_Text: B-Spline Surface
+      m_Image: {fileID: 0}
+      m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6512,6 +6515,7 @@ MonoBehaviour:
   berzierStructPrefab: {fileID: 8598422995186589721, guid: 0f07c7fcba4cb5b4bb8049be09f91b4b, type: 3}
   berzierSurfacbeStructPrefab: {fileID: 1711761916793656441, guid: e85d1f445db7111459a76ea9ef7c7e13, type: 3}
   bSplinesCurveStructPrefab: {fileID: 334063622983847716, guid: 3a530ab4ab22b0a4b9022f89233cc25b, type: 3}
+  bSplinesSurfaceStructPrefab: {fileID: 4688131359433373568, guid: 50be498d85d93174fb8ae5a06c540818, type: 3}
   controlPointPrefab: {fileID: 3303262940325076415, guid: ac116a47a631a0548a22d44e12adbd40, type: 3}
 --- !u!114 &1529253607
 MonoBehaviour:
