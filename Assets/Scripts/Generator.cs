@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Generator : MonoBehaviour
@@ -119,6 +117,9 @@ public class Generator : MonoBehaviour
         {
             GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
+            ChildGrabDetector cgd = controlPoint.GetComponent<ChildGrabDetector>();
+            GrabDetector gd = bezierStruct.GetComponent<GrabDetector>();
+            cgd.ParentDetector = gd;
         }
 
         Debug.Log("Bezier curve successfully instantiated");

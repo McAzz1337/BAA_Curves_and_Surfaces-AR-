@@ -2,25 +2,32 @@ using UnityEngine;
 using Oculus.Interaction;
 using Oculus.Interaction.HandGrab;
 
-public class GrabDetector : MonoBehaviour
+public class ChildGrabDetector : MonoBehaviour
 {
+
     private GrabInteractable interactable;
+
     private HandGrabInteractable handInteractable;
 
     [SerializeField]
-    private ApplicationController appController;
+    private GrabDetector parentDetector;
 
+    public GrabDetector ParentDetector
+    {
+        get { return parentDetector; }
+        set { parentDetector = value; }
+    }
+
+
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        appController = FindFirstObjectByType<ApplicationController>();
         interactable = GetComponentInChildren<GrabInteractable>();
         interactable.WhenStateChanged += onStateChanged;
         handInteractable = GetComponentInChildren<HandGrabInteractable>();
         handInteractable.WhenStateChanged += onStateChanged;
 
-        Renderer r = gameObject.GetComponent<Renderer>();
-        ColorProvider colorProvider = FindFirstObjectByType<ColorProvider>();
-        r.material.color = colorProvider.orange.color;
     }
 
     private void onStateChanged(InteractableStateChangeArgs args)
@@ -37,16 +44,14 @@ public class GrabDetector : MonoBehaviour
         }
     }
 
-    public void onGrab()
+    private void onGrab()
     {
-        Debug.Log("Grabbed controlHande");
-        appController.OBJ = gameObject;
+        parentDetector.onGrab();
     }
 
-    public void onRelease()
+    private void onRelease()
     {
-        Debug.Log("Released controlHande");
+        parentDetector.onRelease();
     }
-
 
 }
