@@ -2634,7 +2634,7 @@ MonoBehaviour:
   menuCanvas: {fileID: 1973567284}
   translationSpeedCanvas: {fileID: 1506079138}
   offsetX: 0
-  offsetZ: 0.3
+  offsetZ: 0.5
   appController: {fileID: 1512762635}
 --- !u!225 &801020330
 CanvasGroup:
