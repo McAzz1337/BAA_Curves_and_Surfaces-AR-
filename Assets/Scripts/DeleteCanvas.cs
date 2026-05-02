@@ -31,6 +31,7 @@ public class DeleteCanvas : MonoBehaviour
     void Start()
     {
         deleteButton.onClick.AddListener(onDeleteClicked);
+        hide();
     }
 
     public void onPose()
