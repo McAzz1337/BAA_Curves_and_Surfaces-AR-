@@ -5,7 +5,7 @@ using Oculus.Interaction.HandGrab;
 public class ChildGrabDetector : MonoBehaviour
 {
 
-    private GrabInteractable interactable;
+    //private GrabInteractable interactable;
 
     private HandGrabInteractable handInteractable;
 
@@ -23,9 +23,9 @@ public class ChildGrabDetector : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        interactable = GetComponentInChildren<GrabInteractable>();
-        interactable.WhenStateChanged += onStateChanged;
-        handInteractable = GetComponentInChildren<HandGrabInteractable>();
+        //interactable = GetComponentInChildren<GrabInteractable>();
+        //interactable.WhenStateChanged += onStateChanged;
+        handInteractable = GetComponent<HandGrabInteractable>();
         handInteractable.WhenStateChanged += onStateChanged;
 
     }
@@ -46,11 +46,13 @@ public class ChildGrabDetector : MonoBehaviour
 
     private void onGrab()
     {
+        Debug.Log("Child control point grabbed");
         parentDetector.onGrab();
     }
 
     private void onRelease()
     {
+        Debug.Log("Child control point released");
         parentDetector.onRelease();
     }
 
