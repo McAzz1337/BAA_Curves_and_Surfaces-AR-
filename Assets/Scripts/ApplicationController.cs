@@ -72,7 +72,15 @@ public class ApplicationController : MonoBehaviour
             controlsStatus.TranslationActive = false;
         }
 
-        Renderer r = obj.GetComponent<Renderer>();
+        StartCoroutine(SetSelectedNextFrame(obj));
+    }
+
+
+    private IEnumerator SetSelectedNextFrame(GameObject obj)
+    {
+        yield return null;
+
+        Renderer r = obj.GetComponentInChildren<Renderer>();
         r.material.color = colorProvider.white.color;
 
         this.obj = obj;
