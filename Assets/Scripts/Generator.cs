@@ -159,6 +159,9 @@ public class Generator : MonoBehaviour
         {
             GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
+            ChildGrabDetector cgd = controlPoint.GetComponent<ChildGrabDetector>();
+            GrabDetector gd = bezierSurfaceStruct.GetComponent<GrabDetector>();
+            cgd.ParentDetector = gd;
         }
 
         controlPointsParent.gatherControlPoints();
@@ -193,6 +196,9 @@ public class Generator : MonoBehaviour
         {
             GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
+            ChildGrabDetector cgd = controlPoint.GetComponent<ChildGrabDetector>();
+            GrabDetector gd = bSplinesStruct.GetComponent<GrabDetector>();
+            cgd.ParentDetector = gd;
         }
 
         controlPointsParent.gatherControlPoints();
@@ -233,6 +239,9 @@ public class Generator : MonoBehaviour
         {
             GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
+            ChildGrabDetector cgd = controlPoint.GetComponent<ChildGrabDetector>();
+            GrabDetector gd = bSplinesSurfaceStruct.GetComponent<GrabDetector>();
+            cgd.ParentDetector = gd;
         }
 
         controlPointsParent.gatherControlPoints();
