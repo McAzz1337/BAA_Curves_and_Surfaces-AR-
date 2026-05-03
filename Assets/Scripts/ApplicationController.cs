@@ -8,6 +8,22 @@ public class ApplicationController : MonoBehaviour
 
 
     private GameObject obj;
+
+    private bool isGrabbed = false;
+    public bool IsGrabbed
+    {
+        get { return isGrabbed; }
+        set
+        {
+            if (value)
+            {
+                controlsStatus.TranslationActive = false;
+                controlsStatus.RotationActive = false;
+            }
+            isGrabbed = value;
+        }
+    }
+
     public GameObject OBJ
     {
         get { return obj; }
