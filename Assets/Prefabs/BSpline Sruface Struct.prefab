@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 3666738443633764879}
   - component: {fileID: 616937654187652381}
   - component: {fileID: 4239376366895779935}
+  - component: {fileID: 4482158546946767846}
   m_Layer: 0
   m_Name: BSpline Sruface Struct
   m_TagString: Untagged
@@ -292,6 +293,19 @@ MonoBehaviour:
   _kinematicWhileSelected: 1
   _throwWhenUnselected: 1
   _forceKinematicDisabled: 0
+--- !u!114 &4482158546946767846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4688131359433373568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 371e4a1596527454392e84b0d050043c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrabDetector
+  appController: {fileID: 0}
 --- !u!1 &4906461158314903535
 GameObject:
   m_ObjectHideFlags: 0

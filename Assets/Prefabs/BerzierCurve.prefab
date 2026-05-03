@@ -44,8 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27fb36e67471f2947b3d554bb54a1b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlPoints
-  controlPointPool: {fileID: 0}
-  log: 0
 --- !u!1 &8205513532652942324
 GameObject:
   m_ObjectHideFlags: 0
