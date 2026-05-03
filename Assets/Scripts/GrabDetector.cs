@@ -41,11 +41,13 @@ public class GrabDetector : MonoBehaviour
     {
         Debug.Log("Grabbed controlHande");
         appController.OBJ = gameObject;
+        appController.IsGrabbed = true;
     }
 
     public void onRelease()
     {
         Debug.Log("Released controlHande");
+        appController.IsGrabbed = false;
     }
 
 
