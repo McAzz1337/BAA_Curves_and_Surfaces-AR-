@@ -3168,8 +3168,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HandRotation
   appController: {fileID: 1512762635}
   controlsStatus: {fileID: 958835236}
-  pinching: 0
-  wasPinchingLastFrame: 0
+  posed: 0
+  wasPosingLastFrame: 0
   buttonPressedLastFrame: 0
   wristStartRotation: {x: 0, y: 0, z: 0, w: 0}
   controllerStartRotation: {x: 0, y: 0, z: 0, w: 0}
