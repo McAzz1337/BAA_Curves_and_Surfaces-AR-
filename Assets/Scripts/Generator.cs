@@ -113,12 +113,12 @@ public class Generator : MonoBehaviour
 
         Vector3 offset = bezierStruct.transform.position + new Vector3(0.0f, -0.25f, 0.0f);
         List<Vector3> controlPointPositions = calculateCurveControlPoints(nodes, offset, cam.transform.right);
+        GrabDetector gd = bezierStruct.GetComponent<GrabDetector>();
         for (int i = 0; i < nodes; i++)
         {
             GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
             ChildGrabDetector cgd = controlPoint.GetComponent<ChildGrabDetector>();
-            GrabDetector gd = bezierStruct.GetComponent<GrabDetector>();
             cgd.ParentDetector = gd;
         }
 
@@ -155,12 +155,12 @@ public class Generator : MonoBehaviour
         }
 
         List<Vector3> controlPointPositions = calculateSurfaceControlPoints(nodes, center, cam.transform.right);
+        GrabDetector gd = bezierSurfaceStruct.GetComponent<GrabDetector>();
         for (int i = 0; i < nodes * nodes; i++)
         {
             GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
             ChildGrabDetector cgd = controlPoint.GetComponent<ChildGrabDetector>();
-            GrabDetector gd = bezierSurfaceStruct.GetComponent<GrabDetector>();
             cgd.ParentDetector = gd;
         }
 
@@ -192,12 +192,12 @@ public class Generator : MonoBehaviour
 
         Vector3 offset = bSplinesStruct.transform.position + new Vector3(0.0f, -0.25f, 0.0f);
         List<Vector3> controlPointPositions = calculateCurveControlPoints(nodes, offset, cam.transform.right);
+        GrabDetector gd = bSplinesStruct.GetComponent<GrabDetector>();
         for (int i = 0; i < nodes; i++)
         {
             GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
             ChildGrabDetector cgd = controlPoint.GetComponent<ChildGrabDetector>();
-            GrabDetector gd = bSplinesStruct.GetComponent<GrabDetector>();
             cgd.ParentDetector = gd;
         }
 
@@ -235,12 +235,12 @@ public class Generator : MonoBehaviour
 
         List<Vector3> controlPointPositions = calculateSurfaceControlPoints(nodes, center, cam.transform.right);
 
+        GrabDetector gd = bSplinesSurfaceStruct.GetComponent<GrabDetector>();
         for (int i = 0; i < nodes * nodes; i++)
         {
             GameObject controlPoint = Instantiate(controlPointPrefab, controlPointPositions[i], Quaternion.identity);
             controlPoint.transform.SetParent(controlPointsParent.transform);
             ChildGrabDetector cgd = controlPoint.GetComponent<ChildGrabDetector>();
-            GrabDetector gd = bSplinesSurfaceStruct.GetComponent<GrabDetector>();
             cgd.ParentDetector = gd;
         }
 
