@@ -57,7 +57,7 @@ public class HandTranslation : MonoBehaviour
 
             bool transition = false;
 
-            if (posed && !posedLastFrame)
+            if (!appController.IsGrabbed && posed && !posedLastFrame)
             {
                 transition = true;
                 controlsStatus.TranslationActive = !controlsStatus.TranslationActive;

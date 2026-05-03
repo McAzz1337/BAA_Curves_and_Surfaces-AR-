@@ -14,9 +14,9 @@ public class HandRotation : MonoBehaviour
     public ControlsStatus controlsStatus;
 
     [DebugMember]
-    public bool pinching = false;
+    public bool posed = false;
     [DebugMember]
-    public bool wasPinchingLastFrame = false;
+    public bool wasPosingLastFrame = false;
 
     [DebugMember]
     public bool buttonPressedLastFrame = false;
@@ -48,12 +48,12 @@ public class HandRotation : MonoBehaviour
     }
     public void onPose()
     {
-        pinching = true;
+        posed = true;
     }
 
     public void onUnposed()
     {
-        pinching = false;
+        posed = false;
     }
 
     // Update is called once per frame
@@ -64,7 +64,7 @@ public class HandRotation : MonoBehaviour
         {
 
             bool transition = false;
-            if (pinching && !wasPinchingLastFrame)
+            if (!appController.IsGrabbed && posed && !wasPosingLastFrame)
             {
                 transition = true;
                 controlsStatus.RotationActive = !controlsStatus.RotationActive;
@@ -82,7 +82,7 @@ public class HandRotation : MonoBehaviour
                 updateObjectByHand();
             }
 
-            wasPinchingLastFrame = pinching;
+            wasPosingLastFrame = posed;
         }
     }
 
